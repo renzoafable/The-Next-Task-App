@@ -4,9 +4,12 @@ import clsx from 'classnames'
 
 export default function NavLink({ children, href }) {
   const router = useRouter()
+  const isHrefSelected = router.asPath === href
   const linkStyles = [
     'nav-link',
-    { active: router.asPath === href }
+    'text-light',
+    'mx-1',
+    { active: isHrefSelected }
   ]
 
   return (

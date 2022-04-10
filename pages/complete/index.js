@@ -1,5 +1,13 @@
+import Head from "next/head"
+
 export default function CompletedTodos() {
+  const title = 'Completed Tasks'
   return (
-    <h1>Completed</h1>
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <h1>{title}</h1>
+    </>
   )
 }
