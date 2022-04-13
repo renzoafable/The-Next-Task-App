@@ -10,6 +10,8 @@ import formatISO from 'date-fns/formatISO';
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
 const LOAD_TASKS = 'LOAD_TASKS';
+const CHECK_TASK = 'CHECK_TASK';
+const UNCHECK_TASK = 'UNCHECK_TASK';
 
 const AppStateContext = createContext();
 const AppDispatchContext = createContext();
@@ -70,6 +72,42 @@ const reducer = (state, action) => {
       };
     }
 
+    case CHECK_TASK: {
+      const taskId = action.payload;
+      const { tasks } = state;
+      const { complete, incomplete, all } = tasks;
+
+      const checkedTask = all.find((task) => task.id === taskId);
+      checkedTask.complete = true;
+
+      return {
+        ...state,
+        tasks: {
+          ...tasks,
+          complete: [...complete, checkedTask],
+          incomplete: incomplete.filter((task) => task.id !== taskId),
+        },
+      };
+    }
+
+    case UNCHECK_TASK: {
+      const taskId = action.payload;
+      const { tasks } = state;
+      const { complete, incomplete, all } = tasks;
+
+      const uncheckedTask = all.find((task) => task.id === taskId);
+      uncheckedTask.complete = false;
+
+      return {
+        ...state,
+        tasks: {
+          ...tasks,
+          incomplete: [...incomplete, uncheckedTask],
+          complete: complete.filter((task) => task.id !== taskId),
+        },
+      };
+    }
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -102,7 +140,20 @@ export function AppProvider({ children }) {
     []
   );
 
-  const actions = useMemo(() => ({ addTask, deleteTask, loadTasks }), []);
+  const checkTask = useCallback(
+    (taskId) => dispatch({ type: CHECK_TASK, payload: taskId }),
+    []
+  );
+
+  const uncheckTask = useCallback(
+    (taskId) => dispatch({ type: UNCHECK_TASK, payload: taskId }),
+    []
+  );
+
+  const actions = useMemo(
+    () => ({ addTask, deleteTask, loadTasks, checkTask, uncheckTask }),
+    []
+  );
 
   return (
     <AppStateContext.Provider value={state}>

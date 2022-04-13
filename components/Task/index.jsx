@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
@@ -19,13 +18,16 @@ const rootClasses = [
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
 export default function Task({ id, complete, title, date }) {
-  const [isComplete, setIsComplete] = useState(complete);
-  const { deleteTask } = useAppDispatch();
+  const { deleteTask, checkTask, uncheckTask } = useAppDispatch();
   const parsedDate = parseISO(date);
   const dateString = format(parsedDate, 'EEE, LLL dd, yyyy');
 
   const onClickCheckbox = () => {
-    setIsComplete(!isComplete);
+    if (complete) {
+      uncheckTask(id);
+    } else {
+      checkTask(id);
+    }
   };
 
   const onClickDelete = () => {
@@ -37,13 +39,13 @@ export default function Task({ id, complete, title, date }) {
       <input
         className="form-check-input mt-0 me-3"
         type="checkbox"
-        checked={isComplete}
+        checked={complete}
         onChange={onClickCheckbox}
       />
       <div className="card-body">
         <p
           className={clsx(...titleClasses, {
-            'text-decoration-line-through': isComplete,
+            'text-decoration-line-through': complete,
           })}
         >
           {title}
