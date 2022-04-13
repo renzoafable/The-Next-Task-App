@@ -1,13 +1,20 @@
 import Head from "next/head"
 
+import { useAppState } from "context/AppContext"
+import Task from "components/Task"
+import Tasks from "components/Tasks"
+
+const title = 'Completed Tasks'
+
 export default function CompletedTodos() {
-  const title = 'Completed Tasks'
+  const { tasks: { complete } } = useAppState()
+
   return (
-    <>
+    <div>
       <Head>
         <title>{title}</title>
       </Head>
-      <h1>{title}</h1>
-    </>
+      <Tasks tasks={complete} />
+    </div>
   )
 }
