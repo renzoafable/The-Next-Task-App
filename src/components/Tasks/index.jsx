@@ -4,7 +4,7 @@ import isSameDay from 'date-fns/isSameDay';
 import parseISO from 'date-fns/parseISO';
 import clsx from 'classnames';
 
-import Task from 'components/Task';
+import Task from 'src/components/Task';
 
 const organizeTasksByDay = (tasks) => {
   return tasks.reduce((map, task) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { useAppDispatch } from 'context/AppContext';
+import { useAppDispatch } from 'src/context/AppContext';
 
 export default function TaskInput() {
   const { addTask } = useAppDispatch();

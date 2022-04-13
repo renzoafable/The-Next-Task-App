@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import { useAppState } from 'context/AppContext';
-import Tasks from 'components/Tasks';
+import { useAppState } from 'src/context/AppContext';
+import Tasks from 'src/components/Tasks';
 
 const title = 'Completed Tasks';
 

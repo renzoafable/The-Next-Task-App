@@ -2,7 +2,7 @@ import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
 
-import { useAppDispatch } from 'context/AppContext';
+import { useAppDispatch } from 'src/context/AppContext';
 
 const rootClasses = [
   'task',

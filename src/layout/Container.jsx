@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 
-import Header from 'components/Header';
-import TaskInput from 'components/TaskInput';
+import Header from 'src/components/Header';
+import TaskInput from 'src/components/TaskInput';
 
 export default function AppContainer({ children }) {
   return (

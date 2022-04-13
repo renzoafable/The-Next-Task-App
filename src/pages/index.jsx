@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useAppState, useAppDispatch } from 'context/AppContext';
+import { useAppState, useAppDispatch } from 'src/context/AppContext';
 import Head from 'next/head';
 import formatISO from 'date-fns/formatISO';
 
-import Tasks from 'components/Tasks';
+import Tasks from 'src/components/Tasks';
 
 const title = 'Incomplete Tasks';
 
