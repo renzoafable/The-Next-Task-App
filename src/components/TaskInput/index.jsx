@@ -2,10 +2,10 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { useAppDispatch } from 'src/context/AppContext';
+import { useAddTask } from 'src/hooks/useApi';
 
 export default function TaskInput() {
-  const { addTask } = useAppDispatch();
+  const { execute } = useAddTask();
   const inputRef = React.useRef(null);
   const [task, setTask] = React.useState('');
 
@@ -15,7 +15,7 @@ export default function TaskInput() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTask(task);
+    execute(task);
     setTask('');
   };
 
