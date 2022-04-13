@@ -1,12 +1,14 @@
-import Header from '../components/Header'
-import Input from '../components/Input'
+import Container from 'react-bootstrap/Container'
 
-export default function Container({ children }) {
+import Header from 'components/Header'
+import TaskInput from 'components/TaskInput'
+
+export default function AppContainer({ children }) {
   return (
-    <div className="container-md shadow-lg h-75 w-50 rounded-2 p-4">
+    <Container fluid="md" className='shadow-lg h-75 w-50 rounded-2 p-4 overflow-auto'>
       <Header />
-      <Input />
+      <TaskInput />
       {children}
-    </div>
+    </Container>
   )
 }

@@ -1,22 +1,18 @@
-import Link from "next/link"
+import { useEffect, useState, memo } from 'react'
 import { useRouter } from "next/router"
-import clsx from 'classnames'
+import Link from "next/link"
+import Nav from 'react-bootstrap/Nav'
 
-export default function NavLink({ children, href }) {
-  const router = useRouter()
-  const isHrefSelected = router.asPath === href
-  const linkStyles = [
-    'nav-link',
-    'text-light',
-    'mx-1',
-    { active: isHrefSelected }
-  ]
+import useActiveNavLink from 'hooks/useActiveNavLink'
+
+export default memo(function NavLink({ children, href }) {
+  const { isActive } = useActiveNavLink(href)
 
   return (
-    <Link href={href}>
-      <a className={clsx(...linkStyles)}>
+    <Link href={href} passHref>
+      <Nav.Link className="text-light mx-1" active={isActive}>
         {children}
-      </a>
+      </Nav.Link>
     </Link>
   )
-}
+})

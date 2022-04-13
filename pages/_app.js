@@ -1,12 +1,15 @@
-import '../styles/globals.scss'
-import Container from '../layout/Container'
+import 'styles/globals.scss'
+import { AppProvider } from 'context/AppContext'
+import Container from 'layout/Container'
 
-function MyApp({ Component, pageProps }) {
+function TaskApp({ Component, pageProps }) {
   return (
-    <Container>
-      <Component {...pageProps} />
-    </Container>
+    <AppProvider>
+      <Container>
+        <Component {...pageProps} />
+      </Container>
+    </AppProvider>
   )
 }
 
-export default MyApp
+export default TaskApp

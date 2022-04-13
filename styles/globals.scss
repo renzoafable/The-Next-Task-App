@@ -27,3 +27,19 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.tasks {
+  .task {
+    border-radius: 0;
+    border-right: 0;
+    border-left: 0;
+
+    &:not(:first-of-type) {
+      border-top: 0;
+    }
+
+    .delete-button:hover {
+      cursor: pointer;
+    }
+  }
+}
