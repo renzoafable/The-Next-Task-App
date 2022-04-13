@@ -40,11 +40,20 @@ const reducer = (state, action) => {
       };
     }
 
-    case DELETE_TASK:
+    case DELETE_TASK: {
+      const { tasks } = state;
+      const { all, incomplete, complete } = tasks;
+
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload),
+        tasks: {
+          ...tasks,
+          all: all.filter((task) => task.id !== action.payload),
+          incomplete: incomplete.filter((task) => task.id !== action.payload),
+          complete: complete.filter((task) => task.id !== action.payload),
+        },
       };
+    }
 
     case LOAD_TASKS: {
       const tasks = action.payload;
