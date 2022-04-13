@@ -26,6 +26,8 @@
         "react/prop-types": "off",
         "import/no-unresolved": "off",
         "arrow-body-style": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "semi": ["error", "always"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
     }
 }
