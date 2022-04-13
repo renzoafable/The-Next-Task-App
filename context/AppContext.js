@@ -12,18 +12,27 @@ const initialState = {
   tasks: {
     complete: [],
     incomplete: [],
-    byId: {},
     all: []
   }
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case ADD_TASK:
+    case ADD_TASK: {
+      const { tasks } = state
+      const { incomplete, all } = tasks
+
+      const task = action.payload
+
       return {
         ...state,
-        tasks: [...state.tasks, action.payload]
+        tasks: {
+          ...tasks,
+          incomplete: [...incomplete, task],
+          all: [...all, task]
+        }
       }
+    }
 
     case DELETE_TASK:
       return {
