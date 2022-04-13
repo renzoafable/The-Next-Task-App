@@ -1,16 +1,17 @@
-import { useEffect } from "react";
-import { useAppState, useAppDispatch } from 'context/AppContext'
-import Head from "next/head";
-import formatISO from 'date-fns/formatISO'
+import { useEffect } from 'react';
+import { useAppState, useAppDispatch } from 'context/AppContext';
+import Head from 'next/head';
+import formatISO from 'date-fns/formatISO';
 
-import Tasks from 'components/Tasks'
-import Task from 'components/Task'
+import Tasks from 'components/Tasks';
 
-const title = 'Incomplete Tasks'
+const title = 'Incomplete Tasks';
 
 export default function Home() {
-  const { tasks: { incomplete } } = useAppState()
-  const { loadTasks } = useAppDispatch()
+  const {
+    tasks: { incomplete },
+  } = useAppState();
+  const { loadTasks } = useAppDispatch();
 
   useEffect(() => {
     loadTasks([
@@ -53,7 +54,7 @@ export default function Home() {
         complete: false,
       },
     ]);
-  }, [loadTasks])
+  }, [loadTasks]);
 
   return (
     <div>
@@ -62,5 +63,5 @@ export default function Home() {
       </Head>
       <Tasks tasks={incomplete} />
     </div>
-  )
+  );
 }
