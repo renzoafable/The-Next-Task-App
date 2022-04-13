@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function useActiveNavLink(href) {
-  const router = useRouter()
-  const [isActive, setIsActive] = useState(false)
+  const router = useRouter();
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     if (router.pathname === href) {
-      setIsActive(true)
+      setIsActive(true);
     } else {
-      setIsActive(false)
+      setIsActive(false);
     }
-  }, [router.pathname, href])
+  }, [router.pathname, href]);
 
-  return { isActive }
+  return { isActive };
 }
