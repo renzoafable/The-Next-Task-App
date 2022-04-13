@@ -8,7 +8,7 @@ import Task from 'components/Task'
 const title = 'Incomplete Tasks'
 
 export default function Home() {
-  const { tasks } = useAppState()
+  const { tasks: { incomplete } } = useAppState()
   const { loadTasks } = useAppDispatch()
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function Home() {
       </Head>
       <div className="tasks">
         <p className="text-info fs-5 mb-2">Today</p>
-        {tasks.map(task => {
+        {incomplete.map(task => {
           const { id, complete, date, title } = task
 
           return (
