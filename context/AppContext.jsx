@@ -144,7 +144,10 @@ export function AppProvider({ children }) {
     []
   );
 
-  const actions = useMemo(() => ({ addTask, deleteTask, loadTasks, checkTask, uncheckTask }), []);
+  const actions = useMemo(
+    () => ({ addTask, deleteTask, loadTasks, checkTask, uncheckTask }),
+    []
+  );
 
   return (
     <AppStateContext.Provider value={state}>
