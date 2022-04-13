@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import clsx from 'classnames'
 import { Trash2 as TrashIcon } from 'react-feather'
-import { format, isSameDay, parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import { useAppDispatch } from 'context/AppContext'
 
@@ -22,8 +22,7 @@ export default function Task({ id, complete, title, date }) {
   const [isComplete, setIsComplete] = useState(complete)
   const { deleteTask } = useAppDispatch()
   const parsedDate = parseISO(date)
-  const isParsedDateToday = isSameDay(parsedDate, new Date())
-  const dateString = isParsedDateToday ? 'Today' : format(parsedDate, 'EEE, LLL dd, yyyy')
+  const dateString = format(parsedDate, 'EEE, LLL dd, yyyy')
 
   const onClickCheckbox = () => {
     setIsComplete(!isComplete)
