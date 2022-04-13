@@ -73,31 +73,37 @@ const reducer = (state, action) => {
     }
 
     case CHECK_TASK: {
-      const checkedTask = action.payload;
+      const taskId = action.payload;
       const { tasks } = state;
-      const { complete, incomplete } = tasks;
+      const { complete, incomplete, all } = tasks;
+
+      const checkedTask = all.find((task) => task.id === taskId);
+      checkedTask.complete = true;
 
       return {
         ...state,
         tasks: {
           ...tasks,
           complete: [...complete, checkedTask],
-          incomplete: incomplete.filter((task) => task.id !== checkedTask.id),
+          incomplete: incomplete.filter((task) => task.id !== taskId),
         },
       };
     }
 
     case UNCHECK_TASK: {
-      const uncheckedTask = action.payload;
+      const taskId = action.payload;
       const { tasks } = state;
-      const { complete, incomplete } = tasks;
+      const { complete, incomplete, all } = tasks;
+
+      const uncheckedTask = all.find((task) => task.id === taskId);
+      uncheckedTask.complete = false;
 
       return {
         ...state,
         tasks: {
           ...tasks,
           incomplete: [...incomplete, uncheckedTask],
-          complete: complete.filter((task) => task.id !== uncheckedTask.id),
+          complete: complete.filter((task) => task.id !== taskId),
         },
       };
     }
@@ -135,12 +141,12 @@ export function AppProvider({ children }) {
   );
 
   const checkTask = useCallback(
-    (task) => dispatch({ type: CHECK_TASK, payload: task }),
+    (taskId) => dispatch({ type: CHECK_TASK, payload: taskId }),
     []
   );
 
   const uncheckTask = useCallback(
-    (task) => dispatch({ type: UNCHECK_TASK, payload: task }),
+    (taskId) => dispatch({ type: UNCHECK_TASK, payload: taskId }),
     []
   );
 
