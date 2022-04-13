@@ -2,7 +2,7 @@ import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
 
-import { useAppDispatch } from 'context/AppContext';
+import { useDeleteTask, useCheckTask, useUncheckTask } from 'src/hooks/useApi';
 
 const rootClasses = [
   'task',
@@ -18,20 +18,23 @@ const rootClasses = [
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
 export default function Task({ id, complete, title, date }) {
-  const { deleteTask, checkTask, uncheckTask } = useAppDispatch();
+  const { execute: executeDeleteTask } = useDeleteTask();
+  const { execute: executeCheckTask } = useCheckTask();
+  const { execute: executeUncheckTask } = useUncheckTask();
+
   const parsedDate = parseISO(date);
   const dateString = format(parsedDate, 'EEE, LLL dd, yyyy');
 
   const onClickCheckbox = () => {
     if (complete) {
-      uncheckTask(id);
+      executeUncheckTask(id);
     } else {
-      checkTask(id);
+      executeCheckTask(id);
     }
   };
 
   const onClickDelete = () => {
-    deleteTask(id);
+    executeDeleteTask(id);
   };
 
   return (

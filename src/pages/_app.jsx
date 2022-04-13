@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import 'styles/globals.scss';
-import { AppProvider } from 'context/AppContext';
-import Container from 'layout/Container';
+import 'src/styles/globals.scss';
+import { AppProvider } from 'src/context/AppContext';
+import Container from 'src/layout/Container';
 
 function TaskApp({ Component, pageProps }) {
   return (

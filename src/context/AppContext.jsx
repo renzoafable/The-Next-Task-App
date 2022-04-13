@@ -5,7 +5,6 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import formatISO from 'date-fns/formatISO';
 
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
@@ -120,12 +119,7 @@ export function AppProvider({ children }) {
     (task) =>
       dispatch({
         type: ADD_TASK,
-        payload: {
-          id: 100 * (Math.random() + Math.random()),
-          title: task,
-          date: formatISO(new Date(), { representation: 'date' }),
-          complete: false,
-        },
+        payload: task,
       }),
     []
   );

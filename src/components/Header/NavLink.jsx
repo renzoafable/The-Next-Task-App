@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Nav from 'react-bootstrap/Nav';
 
-import useActiveNavLink from 'hooks/useActiveNavLink';
+import useActiveNavLink from 'src/hooks/useActiveNavLink';
 
 export default function NavLink({ children, href }) {
   const { isActive } = useActiveNavLink(href);

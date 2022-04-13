@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 
-import { useAppState } from 'context/AppContext';
+import { useAppState } from 'src/context/AppContext';
 import parseISO from 'date-fns/parseISO';
 import isSameDay from 'date-fns/isSameDay';
 
