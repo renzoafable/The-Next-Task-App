@@ -1,6 +1,5 @@
 import { createContext, useReducer, useContext, useCallback } from 'react'
 import formatISO from 'date-fns/formatISO'
-import parseISO from 'date-fns/parseISO'
 
 const ADD_TASK = 'ADD_TASK'
 const DELETE_TASK = 'DELETE_TASK'
@@ -11,7 +10,7 @@ const AppDispatchContext = createContext()
 
 const initialState = {
   tasks: {
-    completed: [],
+    complete: [],
     incomplete: [],
     byId: {},
     all: []
@@ -33,30 +32,15 @@ const reducer = (state, action) => {
       }
 
     case LOAD_TASKS: {
-      const organizeTasksByDay = tasks => {
-        return tasks.reduce((map, task) => {
-          const dayOfTask = formatISO(parseISO(task.date), { representation: 'date' })
-
-          if (dayOfTask in map) map[dayOfTask].push(task)
-          else map[dayOfTask] = [task]
-
-          return map
-        }, {})
-      }
-
       const tasks = action.payload;
       const complete = tasks.filter(task => task.complete)
-      const completeByDay = organizeTasksByDay(complete)
       const incomplete = tasks.filter(task => !task.complete)
-      const incompleteByDay = organizeTasksByDay(incomplete)
 
       return {
         ...state,
         tasks: {
           complete,
-          completeByDay,
           incomplete,
-          incompleteByDay,
           all: tasks
         }
       }

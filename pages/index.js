@@ -3,6 +3,7 @@ import { useAppState, useAppDispatch } from 'context/AppContext'
 import Head from "next/head";
 import formatISO from 'date-fns/formatISO'
 
+import Tasks from 'components/Tasks'
 import Task from 'components/Task'
 
 const title = 'Incomplete Tasks'
@@ -23,6 +24,12 @@ export default function Home() {
       },
       {
         id: Math.random() * 1234,
+        title: 'A simple task',
+        date: formatISO(new Date(), { representation: 'date' }),
+        complete: true,
+      },
+      {
+        id: Math.random() * 1234,
         title: 'Another simple task',
         date: formatISO(new Date(2021, 11, 25), { representation: 'date' }),
         complete: false,
@@ -33,6 +40,18 @@ export default function Home() {
         date: formatISO(new Date()),
         complete: false,
       },
+      {
+        id: Math.random() * 1234,
+        title: 'And another simple task',
+        date: formatISO(new Date()),
+        complete: false,
+      },
+      {
+        id: Math.random() * 1234,
+        title: 'And another simple task',
+        date: formatISO(new Date(2021, 10, 11), { representation: 'date' }),
+        complete: false,
+      },
     ]);
   }, [loadTasks])
 
@@ -41,22 +60,7 @@ export default function Home() {
       <Head>
         <title>{title}</title>
       </Head>
-      <div className="tasks">
-        <p className="text-info fs-5 mb-2">Today</p>
-        {incomplete.map(task => {
-          const { id, complete, date, title } = task
-
-          return (
-            <Task
-              key={id}
-              id={id}
-              complete={complete}
-              date={date}
-              title={title}
-            />
-          )
-        })}
-      </div>
+      <Tasks tasks={incomplete} />
     </div>
   )
 }
