@@ -4,11 +4,11 @@ import Container from 'react-bootstrap/Container';
 import Header from 'src/components/Header';
 import TaskInput from 'src/components/TaskInput';
 
-interface IAppContainerProps {
+type AppContainerProps = {
   children: React.ReactNode;
-}
+};
 
-export default function AppContainer({ children }: IAppContainerProps) {
+export default function AppContainer({ children }: AppContainerProps) {
   return (
     <Container
       fluid="md"
