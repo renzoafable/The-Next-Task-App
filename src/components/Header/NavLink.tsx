@@ -4,12 +4,12 @@ import Nav from 'react-bootstrap/Nav';
 
 import useActiveNavLink from 'src/hooks/useActiveNavLink';
 
-interface INavLink {
+type NavLinkProps = {
   children: React.ReactNode;
   href: string;
-}
+};
 
-export default function NavLink({ children, href }: INavLink) {
+export default function NavLink({ children, href }: NavLinkProps) {
   const { isActive } = useActiveNavLink(href);
 
   return (

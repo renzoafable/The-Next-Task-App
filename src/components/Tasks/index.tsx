@@ -6,12 +6,12 @@ import clsx from 'classnames';
 
 import Task from 'src/components/Task';
 
-interface ITasksByDay {
+type TasksByDay = {
   [key: string]: ITask[];
-}
+};
 
-const organizeTasksByDay = (tasks: ITask[]): ITasksByDay => {
-  return tasks.reduce((map: ITasksByDay, task) => {
+const organizeTasksByDay = (tasks: ITask[]): TasksByDay => {
+  return tasks.reduce((map: TasksByDay, task) => {
     const dayOfTask = formatISO(parseISO(task.date), {
       representation: 'date',
     });
@@ -23,11 +23,11 @@ const organizeTasksByDay = (tasks: ITask[]): ITasksByDay => {
   }, {});
 };
 
-interface ITasks {
+type TasksProps = {
   tasks: ITask[];
-}
+};
 
-export default function Tasks({ tasks }: ITasks) {
+export default function Tasks({ tasks }: TasksProps) {
   const tasksByDay = organizeTasksByDay(tasks);
 
   return (
