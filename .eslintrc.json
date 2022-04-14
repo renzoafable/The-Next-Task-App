@@ -3,11 +3,14 @@
         "browser": true,
         "es2021": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "plugin:@next/next/recommended",
-        "prettier"
+        "prettier",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@next/next/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,14 +21,21 @@
     },
     "plugins": [
         "react",
-        "prettier"
+        "prettier",
+        "@typescript-eslint"
     ],
     "rules": {
         "prettier/prettier": ["error"],
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off",
         "import/no-unresolved": "off",
+        "import/extensions": "off",
         "arrow-body-style": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "semi": ["error", "always"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"]
     }
 }

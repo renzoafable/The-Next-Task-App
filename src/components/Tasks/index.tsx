@@ -6,8 +6,12 @@ import clsx from 'classnames';
 
 import Task from 'src/components/Task';
 
-const organizeTasksByDay = (tasks) => {
-  return tasks.reduce((map, task) => {
+type TasksByDay = {
+  [key: string]: ITask[];
+};
+
+const organizeTasksByDay = (tasks: ITask[]): TasksByDay => {
+  return tasks.reduce((map: TasksByDay, task) => {
     const dayOfTask = formatISO(parseISO(task.date), {
       representation: 'date',
     });
@@ -19,13 +23,17 @@ const organizeTasksByDay = (tasks) => {
   }, {});
 };
 
-export default function Tasks({ tasks }) {
+type TasksProps = {
+  tasks: ITask[];
+};
+
+export default function Tasks({ tasks }: TasksProps) {
   const tasksByDay = organizeTasksByDay(tasks);
 
   return (
     <>
       {Object.keys(tasksByDay)
-        .sort((a, b) => parseISO(b) - parseISO(a))
+        .sort((a, b) => parseISO(b).valueOf() - parseISO(a).valueOf())
         .map((day) => {
           const taskDate = parseISO(day);
           const isDateToday = isSameDay(taskDate, new Date());
@@ -44,7 +52,7 @@ export default function Tasks({ tasks }) {
               >
                 {dateString}
               </p>
-              {tasksByDay[day].map(({ id, complete, title, date }) => (
+              {tasksByDay[day].map(({ id, complete, title, date }: ITask) => (
                 <Task
                   key={id}
                   id={id}

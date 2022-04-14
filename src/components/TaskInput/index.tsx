@@ -6,20 +6,20 @@ import { useAddTask } from 'src/hooks/useApi';
 
 export default function TaskInput() {
   const { execute } = useAddTask();
-  const inputRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [task, setTask] = React.useState('');
 
   React.useEffect(() => {
     inputRef.current?.focus();
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     execute(task);
     setTask('');
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
   };
 
@@ -30,7 +30,7 @@ export default function TaskInput() {
           Task Name
         </Form.Label>
         <Form.Control
-          ref={(element) => {
+          ref={(element: HTMLInputElement) => {
             inputRef.current = element;
           }}
           id="inputTodoName"

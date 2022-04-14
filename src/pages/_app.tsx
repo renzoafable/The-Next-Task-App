@@ -1,9 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
+
 import 'src/styles/globals.scss';
 import { AppProvider } from 'src/context/AppContext';
 import Container from 'src/layout/Container';
+import { AppProps } from 'next/app';
 
-function TaskApp({ Component, pageProps }) {
+export default function TaskApp({ Component, pageProps }: AppProps) {
   return (
     <AppProvider>
       <Container>
@@ -12,5 +15,3 @@ function TaskApp({ Component, pageProps }) {
     </AppProvider>
   );
 }
-
-export default TaskApp;

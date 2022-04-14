@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavLink from './NavLink';
 import DateStats from './DateStats';
 
-const pagePaths = [
+const pagePaths: { href: string; label: string }[] = [
   {
     href: '/',
     label: 'Incomplete Tasks',
