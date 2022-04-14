@@ -7,10 +7,60 @@ import React, {
   Reducer,
 } from 'react';
 
-const AppStateContext = createContext<IAppState>(null!);
-const AppDispatchContext = createContext<IAppDispatchContext>(null!);
+enum ACTION_TYPES {
+  ADD_TASK = 'ADD_TASK',
+  DELETE_TASK = 'DELETE_TASK',
+  LOAD_TASKS = 'LOAD_TASKS',
+  CHECK_TASK = 'CHECK_TASK',
+  UNCHECK_TASK = 'UNCHECK_TASK',
+}
 
-const initialState: IAppState = {
+type AddTaskAction = { type: ACTION_TYPES.ADD_TASK; payload: ITask };
+type DeleteTaskAction = { type: ACTION_TYPES.DELETE_TASK; payload: number };
+type LoadTaskAction = { type: ACTION_TYPES.LOAD_TASKS; payload: ITask[] };
+type CheckTaskAction = { type: ACTION_TYPES.CHECK_TASK; payload: number };
+type UncheckTaskAction = { type: ACTION_TYPES.UNCHECK_TASK; payload: number };
+type ACTIONS =
+  | AddTaskAction
+  | DeleteTaskAction
+  | LoadTaskAction
+  | CheckTaskAction
+  | UncheckTaskAction;
+
+type AppStateTasks = {
+  complete: ITask[];
+  incomplete: ITask[];
+  all: ITask[];
+};
+
+type AppStateContext = {
+  tasks: AppStateTasks;
+};
+
+type AppDispatchContext = {
+  addTask: (task: ITask) => void;
+  deleteTask: (taskId: number) => void;
+  loadTasks: (tasks: ITask[]) => void;
+  checkTask: (taskId: number) => void;
+  uncheckTask: (taskId: number) => void;
+};
+
+function createCtx<A>() {
+  const ctx = createContext<A | undefined>(undefined);
+  function useCtx() {
+    const c = useContext(ctx);
+    if (!c) {
+      throw new Error('useCtx must be used within a Provider with value');
+    }
+    return c;
+  }
+  return [useCtx, ctx.Provider] as const;
+}
+
+const [useAppState, AppStateProvider] = createCtx<AppStateContext>();
+const [useAppDispatch, AppDispatchProvider] = createCtx<AppDispatchContext>();
+
+const initialState: AppStateContext = {
   tasks: {
     complete: [],
     incomplete: [],
@@ -18,7 +68,10 @@ const initialState: IAppState = {
   },
 };
 
-const reducer: Reducer<IAppState, ACTIONS> = (state, action): IAppState => {
+const reducer: Reducer<AppStateContext, ACTIONS> = (
+  state,
+  action
+): AppStateContext => {
   switch (action.type) {
     case ACTION_TYPES.ADD_TASK: {
       const { tasks } = state;
@@ -153,26 +206,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <AppStateContext.Provider value={state}>
-      <AppDispatchContext.Provider value={actions}>
-        {children}
-      </AppDispatchContext.Provider>
-    </AppStateContext.Provider>
+    <AppStateProvider value={state}>
+      <AppDispatchProvider value={actions}>{children}</AppDispatchProvider>
+    </AppStateProvider>
   );
 }
 
-export const useAppState = () => {
-  const context = useContext(AppStateContext);
-  if (context === undefined) {
-    throw new Error('useAppState must be used within an AppProvider');
-  }
-  return context;
-};
-
-export const useAppDispatch = () => {
-  const context = useContext(AppDispatchContext);
-  if (context === undefined) {
-    throw new Error('useAppDispatch must be used within an AppProvider');
-  }
-  return context;
-};
+export { useAppState, useAppDispatch };
