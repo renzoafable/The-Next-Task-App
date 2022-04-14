@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function useActiveNavLink(href) {
+export default function useActiveNavLink(href: string) {
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
 

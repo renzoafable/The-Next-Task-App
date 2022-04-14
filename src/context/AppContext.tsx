@@ -1,21 +1,16 @@
-import {
+import React, {
   createContext,
   useReducer,
   useContext,
   useCallback,
   useMemo,
+  Reducer,
 } from 'react';
 
-const ADD_TASK = 'ADD_TASK';
-const DELETE_TASK = 'DELETE_TASK';
-const LOAD_TASKS = 'LOAD_TASKS';
-const CHECK_TASK = 'CHECK_TASK';
-const UNCHECK_TASK = 'UNCHECK_TASK';
+const AppStateContext = createContext<IAppState>(null!);
+const AppDispatchContext = createContext<IAppDispatchContext>(null!);
 
-const AppStateContext = createContext();
-const AppDispatchContext = createContext();
-
-const initialState = {
+const initialState: IAppState = {
   tasks: {
     complete: [],
     incomplete: [],
@@ -23,9 +18,9 @@ const initialState = {
   },
 };
 
-const reducer = (state, action) => {
+const reducer: Reducer<IAppState, ACTIONS> = (state, action): IAppState => {
   switch (action.type) {
-    case ADD_TASK: {
+    case ACTION_TYPES.ADD_TASK: {
       const { tasks } = state;
       const { incomplete, all } = tasks;
 
@@ -41,7 +36,7 @@ const reducer = (state, action) => {
       };
     }
 
-    case DELETE_TASK: {
+    case ACTION_TYPES.DELETE_TASK: {
       const { tasks } = state;
       const { all, incomplete, complete } = tasks;
 
@@ -56,7 +51,7 @@ const reducer = (state, action) => {
       };
     }
 
-    case LOAD_TASKS: {
+    case ACTION_TYPES.LOAD_TASKS: {
       const tasks = action.payload;
       const complete = tasks.filter((task) => task.complete);
       const incomplete = tasks.filter((task) => !task.complete);
@@ -71,76 +66,84 @@ const reducer = (state, action) => {
       };
     }
 
-    case CHECK_TASK: {
+    case ACTION_TYPES.CHECK_TASK: {
       const taskId = action.payload;
       const { tasks } = state;
       const { complete, incomplete, all } = tasks;
 
+      const completedTasks: ITask[] = [...complete];
       const checkedTask = all.find((task) => task.id === taskId);
-      checkedTask.complete = true;
+      if (checkedTask) {
+        checkedTask.complete = true;
+        completedTasks.push(checkedTask);
+      }
 
       return {
         ...state,
         tasks: {
           ...tasks,
-          complete: [...complete, checkedTask],
+          complete: completedTasks,
           incomplete: incomplete.filter((task) => task.id !== taskId),
         },
       };
     }
 
-    case UNCHECK_TASK: {
+    case ACTION_TYPES.UNCHECK_TASK: {
       const taskId = action.payload;
       const { tasks } = state;
       const { complete, incomplete, all } = tasks;
 
+      const incompleteTasks: ITask[] = [...incomplete];
       const uncheckedTask = all.find((task) => task.id === taskId);
-      uncheckedTask.complete = false;
+      if (uncheckedTask) {
+        uncheckedTask.complete = false;
+        incompleteTasks.push(uncheckedTask);
+      }
 
       return {
         ...state,
         tasks: {
           ...tasks,
-          incomplete: [...incomplete, uncheckedTask],
+          incomplete: incompleteTasks,
           complete: complete.filter((task) => task.id !== taskId),
         },
       };
     }
 
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return state;
   }
 };
 
-export function AppProvider({ children }) {
+export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addTask = useCallback(
-    (task) =>
-      dispatch({
-        type: ADD_TASK,
-        payload: task,
-      }),
+    (task: ITask) => dispatch({ type: ACTION_TYPES.ADD_TASK, payload: task }),
     []
   );
 
   const deleteTask = useCallback(
-    (taskId) => dispatch({ type: DELETE_TASK, payload: taskId }),
+    (taskId: number) =>
+      dispatch({ type: ACTION_TYPES.DELETE_TASK, payload: taskId }),
     []
   );
 
   const loadTasks = useCallback(
-    (tasks) => dispatch({ type: LOAD_TASKS, payload: tasks }),
+    (tasks: ITask[]) =>
+      dispatch({ type: ACTION_TYPES.LOAD_TASKS, payload: tasks }),
     []
   );
 
   const checkTask = useCallback(
-    (taskId) => dispatch({ type: CHECK_TASK, payload: taskId }),
+    (taskId: number) =>
+      dispatch({ type: ACTION_TYPES.CHECK_TASK, payload: taskId }),
     []
   );
 
   const uncheckTask = useCallback(
-    (taskId) => dispatch({ type: UNCHECK_TASK, payload: taskId }),
+    (taskId: number) =>
+      dispatch({ type: ACTION_TYPES.UNCHECK_TASK, payload: taskId }),
     []
   );
 

@@ -17,7 +17,7 @@ const rootClasses = [
 
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
-export default function Task({ id, complete, title, date }) {
+export default function Task({ id, complete, title, date }: ITask) {
   const { execute: executeDeleteTask } = useDeleteTask();
   const { execute: executeCheckTask } = useCheckTask();
   const { execute: executeUncheckTask } = useUncheckTask();

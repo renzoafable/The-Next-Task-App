@@ -22,9 +22,10 @@
   },
   "include": [
     "next-env.d.ts",
+    "app.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/context/AppContext.jsx"
+    "src/context/AppContext.tsx"
   ],
   "exclude": [
     "node_modules"

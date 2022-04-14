@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useCallback } from 'react';
 import formatISO from 'date-fns/formatISO';
 
@@ -10,8 +11,8 @@ export function useAddTask() {
   const { addTask } = useAppDispatch();
 
   const execute = useCallback(
-    (task) => {
-      const taskPayload = {
+    (task: string) => {
+      const taskPayload: ITask = {
         id: 100 * Math.random(),
         title: task,
         date: formatISO(new Date(), { representation: 'date' }),
@@ -56,8 +57,8 @@ export function useDeleteTask() {
   const { deleteTask } = useAppDispatch();
 
   const execute = useCallback(
-    (taskId) => {
-      const updatedTasks = all.filter((task) => task.id !== taskId);
+    (taskId: number) => {
+      const updatedTasks = all.filter((task: ITask) => task.id !== taskId);
       const stringifiedTasks = JSON.stringify(updatedTasks);
 
       try {
@@ -80,7 +81,7 @@ export function useCheckTask() {
   const { checkTask } = useAppDispatch();
 
   const execute = useCallback(
-    (taskId) => {
+    (taskId: number) => {
       const tasks = [...all];
       const taskIndex = tasks.findIndex((task) => task.id === taskId);
       tasks[taskIndex].complete = true;
@@ -106,7 +107,7 @@ export function useUncheckTask() {
   const { uncheckTask } = useAppDispatch();
 
   const execute = useCallback(
-    (taskId) => {
+    (taskId: number) => {
       const tasks = [...all];
       const taskIndex = tasks.findIndex((task) => task.id === taskId);
       tasks[taskIndex].complete = false;
