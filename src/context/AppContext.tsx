@@ -34,6 +34,7 @@ type AppStateTasks = {
 };
 
 type AppStateContext = {
+  user: AuthUser | null;
   tasks: AppStateTasks;
 };
 
@@ -61,6 +62,7 @@ const [useAppState, AppStateProvider] = createCtx<AppStateContext>();
 const [useAppDispatch, AppDispatchProvider] = createCtx<AppDispatchContext>();
 
 const initialState: AppStateContext = {
+  user: null,
   tasks: {
     complete: [],
     incomplete: [],
