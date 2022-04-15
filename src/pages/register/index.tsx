@@ -1,17 +1,24 @@
-import Head from 'next/head';
 import React, { useState } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Button, Container, Form } from 'react-bootstrap';
+
+import { useRegisterUser } from 'src/hooks/useApi';
 
 const title = 'Register User';
 
 export default function Register(): JSX.Element {
   const [name, setName] = useState('');
-  const [age, setAge] = useState<number | ''>('');
+  const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { execute, isLoading, data } = useRegisterUser();
+  const router = useRouter();
 
-  const formSubmitHandler = (e: React.FormEvent) => {
+  const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    await execute({ age: parseFloat(age), email, name, password });
 
     setName('');
     setAge('');
@@ -24,10 +31,7 @@ export default function Register(): JSX.Element {
   };
 
   const onChangeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.isNaN(parseFloat(e.target.value))
-      ? ''
-      : parseFloat(e.target.value);
-    setAge(value);
+    setAge(e.target.value);
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +41,10 @@ export default function Register(): JSX.Element {
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
+  if (!isLoading && data) {
+    router.push('/');
+  }
 
   return (
     <div>

@@ -13,3 +13,10 @@ type AuthUser = {
   createdAt: string;
   updatedAt: string;
 };
+
+type AuthUserPayload = {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+};

@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import formatISO from 'date-fns/formatISO';
 
 import { useAppDispatch, useAppState } from 'src/context/AppContext';
+import axios from 'src/api/axios';
 
 export function useAddTask() {
   const {
@@ -124,4 +125,33 @@ export function useUncheckTask() {
   );
 
   return { execute };
+}
+
+export function useRegisterUser() {
+  type RegisterResponse = {
+    user: AuthUser;
+    token: string;
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<RegisterResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
+
+  const execute = useCallback(async (userPayload: AuthUserPayload) => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.post<RegisterResponse>(
+        '/user/register',
+        userPayload
+      );
+
+      setData(response.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+    }
+  }, []);
+
+  return { execute, data, isLoading, error };
 }
