@@ -35,6 +35,7 @@ export function useRegisterUser() {
 }
 
 export function useLogin() {
+  const { setUser } = useAuthDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<AuthResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
@@ -50,6 +51,8 @@ export function useLogin() {
         );
 
         setData(response.data);
+        setUser(response.data.user);
+        localStorage?.setItem('todoAuthToken', response.data.token);
         setIsLoading(false);
       } catch (err: unknown) {
         setError(err);
