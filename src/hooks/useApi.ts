@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import formatISO from 'date-fns/formatISO';
 
 import { useAppDispatch, useAppState } from 'src/context/AppContext';
-import { useAuthDispatch } from 'src/context/AuthContext';
-import axios from 'src/api/axios';
 
 export function useAddTask() {
   const {
@@ -126,27 +124,4 @@ export function useUncheckTask() {
   );
 
   return { execute };
-}
-
-export function useGetUserWithToken() {
-  const { setUser } = useAuthDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AuthUser | null>(null);
-  const [error, setError] = useState<unknown>(null);
-
-  const execute = useCallback(async () => {
-    try {
-      setIsLoading(true);
-
-      const response = await axios.get<AuthUser>('/user/me');
-
-      setData(response.data);
-      setUser(response.data);
-      setIsLoading(false);
-    } catch (err: unknown) {
-      setError(err);
-    }
-  }, []);
-
-  return { execute, data, isLoading, error };
 }
