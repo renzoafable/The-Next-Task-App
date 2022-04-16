@@ -1,9 +1,10 @@
-/* eslint-disable import/prefer-default-export */
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import axios from 'src/api/axios';
 import { useAuthDispatch } from 'src/context/AuthContext';
+import useAxiosPrivate from './useAxiosPrivate';
+import useSession from './useSession';
 
 type AuthHookOptions = {
   redirectTo?: string;
@@ -15,6 +16,7 @@ export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
   const [data, setData] = useState<AuthResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const router = useRouter();
+  const session = useSession();
 
   const execute = async (userPayload: AuthUserPayload): Promise<void> => {
     try {
@@ -27,7 +29,7 @@ export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
 
       setData(response.data);
       setUser(response.data.user);
-      localStorage?.setItem('todoAuthToken', response.data.token);
+      session.setAuthToken(response.data.token);
       setIsLoading(false);
 
       if (redirectTo) {
@@ -47,6 +49,7 @@ export function useLogin({ redirectTo }: AuthHookOptions = {}) {
   const [data, setData] = useState<AuthResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const router = useRouter();
+  const session = useSession();
 
   const execute = async (loginPayload: AuthLoginPayload): Promise<void> => {
     try {
@@ -59,7 +62,7 @@ export function useLogin({ redirectTo }: AuthHookOptions = {}) {
 
       setData(response.data);
       setUser(response.data.user);
-      localStorage?.setItem('todoAuthToken', response.data.token);
+      session.setAuthToken(response.data.token);
       setIsLoading(false);
 
       if (redirectTo) {
@@ -71,4 +74,31 @@ export function useLogin({ redirectTo }: AuthHookOptions = {}) {
   };
 
   return { data, error, execute: useCallback(execute, []), isLoading };
+}
+
+export function useSilentLogin() {
+  const { setUser } = useAuthDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const session = useSession();
+  const { axiosPrivate, setAuthorizationHeader } = useAxiosPrivate({
+    onLogout: () => {
+      session.setAuthToken();
+    },
+  });
+
+  const silentLogin = async () => {
+    const authToken = session.getAuthToken();
+
+    if (authToken) {
+      setAuthorizationHeader(authToken);
+
+      const response = await axiosPrivate.get<AuthUser>('/user/me');
+
+      setUser(response.data);
+    }
+
+    setIsLoading(false);
+  };
+
+  return { isLoading, silentLogin };
 }
