@@ -1,47 +1,31 @@
-import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 
-import { useRegisterUser } from 'src/hooks/useAuthApi';
+import { useLogin } from 'src/hooks/useAuthApi';
 
-const title = 'Register User';
+const title = 'Login';
 
-export default function Register(): JSX.Element {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { execute, isLoading, data } = useRegisterUser();
+  const { data, execute, isLoading } = useLogin();
   const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && data) {
       router.push('/');
     }
-  }, [isLoading, data]);
+  }, [data, isLoading]);
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await execute({ age: parseFloat(age), email, name, password });
+    await execute({ email, password });
 
-    if (!isLoading && data) {
-      router.push('/');
-    }
-
-    setName('');
-    setAge('');
     setEmail('');
     setPassword('');
-  };
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const onChangeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(e.target.value);
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,34 +43,10 @@ export default function Register(): JSX.Element {
         fluid="sm"
         className="w-50 position-absolute top-50 start-50 translate-middle"
       >
-        <h1 className="display-6 text-white text-center mb-3 fw-bold">
-          Register
-        </h1>
+        <h1 className="display-6 text-white text-center mb-3 fw-bold">Login</h1>
         <Form onSubmit={formSubmitHandler}>
-          <Form.Group className="mb-3" controlId="formName">
-            <Form.Label className="text-white">Name</Form.Label>
-            <Form.Control
-              value={name}
-              onChange={onChangeName}
-              required
-              type="text"
-              placeholder="Enter name"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formAge">
-            <Form.Label className="text-white">Age</Form.Label>
-            <Form.Control
-              value={age}
-              onChange={onChangeAge}
-              required
-              type="number"
-              placeholder="Enter age"
-            />
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label className="text-white">Email address</Form.Label>
+            <Form.Label className="text-white">Email</Form.Label>
             <Form.Control
               value={email}
               onChange={onChangeEmail}
@@ -95,7 +55,6 @@ export default function Register(): JSX.Element {
               placeholder="Enter email"
             />
           </Form.Group>
-
           <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label className="text-white">Password</Form.Label>
             <Form.Control
@@ -109,7 +68,7 @@ export default function Register(): JSX.Element {
           <div className="d-flex">
             <div className="flex-grow-1" />
             <Button variant="info text-white" type="submit">
-              Register
+              Login
             </Button>
           </div>
         </Form>
