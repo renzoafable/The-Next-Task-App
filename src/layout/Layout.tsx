@@ -15,7 +15,7 @@ export default function AppContainer({
   requiresAuth = false,
 }: AppContainerProps) {
   const { user } = useAuthState();
-  const displayAuthContent = requiresAuth && !!user;
+  const shouldDisplayAuthContent = requiresAuth && !!user;
 
   const authContent = (
     <>
@@ -25,7 +25,7 @@ export default function AppContainer({
     </>
   );
 
-  const displayContent = displayAuthContent ? authContent : children;
+  const displayContent = shouldDisplayAuthContent ? authContent : children;
 
   return (
     <Container
