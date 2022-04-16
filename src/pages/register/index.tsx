@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button, Container, Form } from 'react-bootstrap';
 
-import { useRegisterUser } from 'src/hooks/useApi';
+import { useRegisterUser } from 'src/hooks/useAuthApi';
 
 const title = 'Register User';
 
@@ -19,6 +19,10 @@ export default function Register(): JSX.Element {
     e.preventDefault();
 
     await execute({ age: parseFloat(age), email, name, password });
+
+    if (!isLoading && data) {
+      router.push('/');
+    }
 
     setName('');
     setAge('');
@@ -41,10 +45,6 @@ export default function Register(): JSX.Element {
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-
-  if (!isLoading && data) {
-    router.push('/');
-  }
 
   return (
     <div>

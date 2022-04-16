@@ -20,3 +20,8 @@ type AuthUserPayload = {
   email: string;
   password: string;
 };
+
+type AuthResponse = {
+  user: AuthUser;
+  token: string;
+};

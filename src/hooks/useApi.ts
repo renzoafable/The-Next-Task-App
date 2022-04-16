@@ -128,37 +128,6 @@ export function useUncheckTask() {
   return { execute };
 }
 
-export function useRegisterUser() {
-  type Response = {
-    user: AuthUser;
-    token: string;
-  };
-  const { setUser } = useAuthDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<Response | null>(null);
-  const [error, setError] = useState<unknown>(null);
-
-  const execute = useCallback(async (userPayload: AuthUserPayload) => {
-    try {
-      setIsLoading(true);
-
-      const response = await axios.post<Response>(
-        '/user/register',
-        userPayload
-      );
-
-      setData(response.data);
-      setUser(response.data.user);
-      localStorage?.setItem('todoAuthToken', response.data.token);
-      setIsLoading(false);
-    } catch (err: unknown) {
-      setError(err);
-    }
-  }, []);
-
-  return { execute, data, isLoading, error };
-}
-
 export function useGetUserWithToken() {
   const { setUser } = useAuthDispatch();
   const [isLoading, setIsLoading] = useState(false);
