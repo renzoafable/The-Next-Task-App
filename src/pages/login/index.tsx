@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
+import SpinnerButton from 'src/components/SpinnerButton';
 
 import { useLogin } from 'src/hooks/useAuthApi';
 
@@ -9,7 +10,7 @@ const title = 'Login';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { execute } = useLogin({ redirectTo: '/' });
+  const { execute, isLoading } = useLogin({ redirectTo: '/' });
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,9 +60,14 @@ export default function Login() {
           </Form.Group>
           <div className="d-flex">
             <div className="flex-grow-1" />
-            <Button variant="info text-white" type="submit">
+            <SpinnerButton
+              variant="info"
+              isLoading={isLoading}
+              className="text-white"
+              type="submit"
+            >
               Login
-            </Button>
+            </SpinnerButton>
           </div>
         </Form>
       </Container>
