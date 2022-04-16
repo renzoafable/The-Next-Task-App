@@ -1,11 +1,6 @@
-import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useCallback,
-  useMemo,
-  Reducer,
-} from 'react';
+import React, { useReducer, useCallback, useMemo, Reducer } from 'react';
+
+import createCtx from 'src/lib/context';
 
 enum ACTION_TYPES {
   ADD_TASK = 'ADD_TASK',
@@ -34,7 +29,6 @@ type AppStateTasks = {
 };
 
 type AppStateContext = {
-  user: AuthUser | null;
   tasks: AppStateTasks;
 };
 
@@ -46,23 +40,10 @@ type AppDispatchContext = {
   uncheckTask: (taskId: number) => void;
 };
 
-function createCtx<A>() {
-  const ctx = createContext<A | undefined>(undefined);
-  function useCtx() {
-    const c = useContext(ctx);
-    if (!c) {
-      throw new Error('useCtx must be used within a Provider with value');
-    }
-    return c;
-  }
-  return [useCtx, ctx.Provider] as const;
-}
-
 const [useAppState, AppStateProvider] = createCtx<AppStateContext>();
 const [useAppDispatch, AppDispatchProvider] = createCtx<AppDispatchContext>();
 
 const initialState: AppStateContext = {
-  user: null,
   tasks: {
     complete: [],
     incomplete: [],

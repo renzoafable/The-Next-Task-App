@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useAppState } from 'src/context/AppContext';
 import Head from 'next/head';
 
 import Tasks from 'src/components/Tasks';
+import { useAppState } from 'src/context/AppContext';
 import { useLoadTasks } from 'src/hooks/useApi';
 
 const title = 'Incomplete Tasks';

@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import formatISO from 'date-fns/formatISO';
 
 import { useAppDispatch, useAppState } from 'src/context/AppContext';
+import { useAuthDispatch } from 'src/context/AuthContext';
 import axios from 'src/api/axios';
 
 export function useAddTask() {
@@ -128,25 +129,50 @@ export function useUncheckTask() {
 }
 
 export function useRegisterUser() {
-  type RegisterResponse = {
+  type Response = {
     user: AuthUser;
     token: string;
   };
-
+  const { setUser } = useAuthDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<RegisterResponse | null>(null);
+  const [data, setData] = useState<Response | null>(null);
   const [error, setError] = useState<unknown>(null);
 
   const execute = useCallback(async (userPayload: AuthUserPayload) => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post<RegisterResponse>(
+      const response = await axios.post<Response>(
         '/user/register',
         userPayload
       );
 
       setData(response.data);
+      setUser(response.data.user);
+      localStorage?.setItem('todoAuthToken', response.data.token);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+    }
+  }, []);
+
+  return { execute, data, isLoading, error };
+}
+
+export function useGetUserWithToken() {
+  const { setUser } = useAuthDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<AuthUser | null>(null);
+  const [error, setError] = useState<unknown>(null);
+
+  const execute = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get<AuthUser>('/user/me');
+
+      setData(response.data);
+      setUser(response.data);
       setIsLoading(false);
     } catch (err: unknown) {
       setError(err);
