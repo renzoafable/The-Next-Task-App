@@ -1,5 +1,5 @@
 import React, { Reducer, useCallback, useMemo, useReducer } from 'react';
-import createCtx from 'src/lib/context';
+import createCtx from 'src/helpers/context';
 
 enum ACTION_TYPES {
   SET_USER = 'SET_USER',

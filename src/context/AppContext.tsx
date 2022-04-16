@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback, useMemo, Reducer } from 'react';
 
-import createCtx from 'src/lib/context';
+import createCtx from 'src/helpers/context';
 
 enum ACTION_TYPES {
   ADD_TASK = 'ADD_TASK',
