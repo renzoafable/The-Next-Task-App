@@ -100,9 +100,12 @@ export default function Register(): JSX.Element {
               placeholder="Password"
             />
           </Form.Group>
-          <Button variant="info text-white" type="submit">
-            Register
-          </Button>
+          <div className="d-flex">
+            <div className="flex-grow-1" />
+            <Button variant="info text-white" type="submit">
+              Register
+            </Button>
+          </div>
         </Form>
       </Container>
     </div>

@@ -49,9 +49,12 @@ export default function Login() {
               placeholder="Password"
             />
           </Form.Group>
-          <Button variant="info text-white" type="submit">
-            Login
-          </Button>
+          <div className="d-flex">
+            <div className="flex-grow-1" />
+            <Button variant="info text-white" type="submit">
+              Login
+            </Button>
+          </div>
         </Form>
       </Container>
     </div>
