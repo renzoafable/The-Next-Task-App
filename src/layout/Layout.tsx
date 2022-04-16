@@ -1,38 +1,40 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 
+import Auth from 'src/components/Auth';
 import Header from 'src/components/Header';
 import TaskInput from 'src/components/TaskInput';
-import { useAuthState } from 'src/context/AuthContext';
 
 type AppContainerProps = {
   children: React.ReactNode;
   requiresAuth?: boolean;
 };
 
-export default function AppContainer({
-  children,
-  requiresAuth = false,
-}: AppContainerProps) {
-  const { user } = useAuthState();
-  const shouldDisplayAuthContent = requiresAuth && !!user;
+export default function AppContainer(props: AppContainerProps) {
+  const { children, requiresAuth } = props;
 
-  const authContent = (
-    <>
-      <Header />
-      <TaskInput />
-      {children}
-    </>
-  );
+  let content: React.ReactNode;
 
-  const displayContent = shouldDisplayAuthContent ? authContent : children;
+  if (!requiresAuth) {
+    content = children;
+  } else {
+    content = (
+      <Auth>
+        <>
+          <Header />
+          <TaskInput />
+          {children}
+        </>
+      </Auth>
+    );
+  }
 
   return (
     <Container
       fluid="md"
       className="shadow-lg h-75 w-50 rounded-2 p-4 overflow-auto position-relative"
     >
-      {displayContent}
+      {content}
     </Container>
   );
 }
