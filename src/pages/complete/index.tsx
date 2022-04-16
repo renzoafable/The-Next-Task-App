@@ -26,3 +26,11 @@ export default function CompletedTodos() {
     </div>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {
+      requiresAuth: true,
+    },
+  };
+}

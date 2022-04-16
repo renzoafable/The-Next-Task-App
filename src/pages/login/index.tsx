@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 
 import { useLogin } from 'src/hooks/useAuthApi';
@@ -10,14 +9,7 @@ const title = 'Login';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { data, execute, isLoading } = useLogin();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && data) {
-      router.push('/');
-    }
-  }, [data, isLoading]);
+  const { execute } = useLogin({ redirectTo: '/' });
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
