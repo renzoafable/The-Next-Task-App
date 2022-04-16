@@ -33,3 +33,30 @@ export function useRegisterUser() {
 
   return { execute, data, isLoading, error };
 }
+
+export function useLogin() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<AuthResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
+
+  const execute = useCallback(
+    async (loginPayload: AuthLoginPayload): Promise<void> => {
+      try {
+        setIsLoading(true);
+
+        const response = await axios.post<AuthResponse>(
+          '/user/login',
+          loginPayload
+        );
+
+        setData(response.data);
+        setIsLoading(false);
+      } catch (err: unknown) {
+        setError(err);
+      }
+    },
+    []
+  );
+
+  return { data, error, execute, isLoading };
+}

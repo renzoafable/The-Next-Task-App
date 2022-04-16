@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Button, Container, Form } from 'react-bootstrap';
@@ -14,6 +14,12 @@ export default function Register(): JSX.Element {
   const [password, setPassword] = useState('');
   const { execute, isLoading, data } = useRegisterUser();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      router.push('/');
+    }
+  }, [isLoading, data]);
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
