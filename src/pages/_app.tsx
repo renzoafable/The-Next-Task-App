@@ -11,7 +11,7 @@ export default function TaskApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <AppProvider>
-        <Container>
+        <Container requiresAuth={pageProps.requiresAuth}>
           <Component {...pageProps} />
         </Container>
       </AppProvider>
