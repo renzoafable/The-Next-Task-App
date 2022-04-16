@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { Button, Container, Form } from 'react-bootstrap';
 
 import { useRegisterUser } from 'src/hooks/useAuthApi';
@@ -12,23 +11,12 @@ export default function Register(): JSX.Element {
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { execute, isLoading, data } = useRegisterUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && data) {
-      router.push('/');
-    }
-  }, [isLoading, data]);
+  const { execute } = useRegisterUser({ redirectTo: '/' });
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
     await execute({ age: parseFloat(age), email, name, password });
-
-    if (!isLoading && data) {
-      router.push('/');
-    }
 
     setName('');
     setAge('');
