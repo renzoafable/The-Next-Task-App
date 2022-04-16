@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 
 import { useRegisterUser } from 'src/hooks/useAuthApi';
+import SpinnerButton from 'src/components/SpinnerButton';
 
 const title = 'Register User';
 
@@ -11,7 +12,7 @@ export default function Register(): JSX.Element {
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { execute } = useRegisterUser({ redirectTo: '/' });
+  const { execute, isLoading } = useRegisterUser({ redirectTo: '/' });
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,9 +97,14 @@ export default function Register(): JSX.Element {
           </Form.Group>
           <div className="d-flex">
             <div className="flex-grow-1" />
-            <Button variant="info text-white" type="submit">
+            <SpinnerButton
+              variant="info"
+              isLoading={isLoading}
+              className="text-white"
+              type="submit"
+            >
               Register
-            </Button>
+            </SpinnerButton>
           </div>
         </Form>
       </Container>
