@@ -1,10 +1,12 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 
+import { useAppState } from 'src/context/AppContext';
 import { useAddTask } from 'src/hooks/useTaskApi';
 import SpinnerButton from '../SpinnerButton';
 
 export default function TaskInput() {
+  const { isLoadingTasks } = useAppState();
   const { execute, isLoading } = useAddTask();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [task, setTask] = React.useState('');
@@ -38,6 +40,7 @@ export default function TaskInput() {
           placeholder="Add a task"
           onChange={onChange}
           value={task}
+          disabled={isLoadingTasks}
         />
       </div>
       <div className="col-2 g-0">
