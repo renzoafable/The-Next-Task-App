@@ -12,7 +12,7 @@ export default function SkeletonLoader(props: SkeletonLoaderProps) {
       {Array(levels)
         .fill(1)
         .map(() => (
-          <Placeholder as="p" animation="glow">
+          <Placeholder as="p" animation="glow" key={Date.now() * Math.random()}>
             <Placeholder xs={12} bg="light" />
           </Placeholder>
         ))}

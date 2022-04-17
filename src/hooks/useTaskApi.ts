@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useCallback, useState } from 'react';
 
+import { isErrorWithMessage } from 'src/helpers/error';
 import { useAppDispatch } from 'src/context/AppContext';
 import useAxiosPrivate from './useAxiosPrivate';
 
@@ -46,7 +47,7 @@ export function useUpdateTask() {
   };
 
   const { axiosPrivate } = useAxiosPrivate();
-  const { updateTask } = useAppDispatch();
+  const { updateTask, deleteTask } = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<UpdateTaskResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
@@ -64,6 +65,14 @@ export function useUpdateTask() {
       setData(response.data);
       setIsLoading(false);
     } catch (err: unknown) {
+      if (
+        isErrorWithMessage(err) &&
+        err.response.data.message === 'No task found'
+      ) {
+        // This catches instances where a user is trying to delete a task that no longer exists e.g. has been deleted from another session.
+        deleteTask(id);
+      }
+
       setError(err);
       setIsLoading(false);
     }
@@ -133,6 +142,14 @@ export function useDeleteTask() {
       setData(response.data);
       setIsLoading(false);
     } catch (err: unknown) {
+      if (
+        isErrorWithMessage(err) &&
+        err.response.data.message === 'No task found'
+      ) {
+        // This catches instances where a user is trying to delete a task that no longer exists e.g. has been deleted from another session.
+        deleteTask(taskId);
+      }
+
       setError(err);
       setIsLoading(false);
     }
