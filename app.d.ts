@@ -7,6 +7,11 @@ type Task = {
   updatedAt: string;
 };
 
+type UpdatableTaskProps = {
+  completed?: boolean;
+  description?: string;
+};
+
 type AuthUser = {
   age: number;
   id: string;

@@ -39,6 +39,39 @@ export function useAddTask() {
   return { data, error, execute: useCallback(execute, []), isLoading };
 }
 
+export function useUpdateTask() {
+  type UpdateTaskResponse = {
+    success: boolean;
+    data: Task;
+  };
+
+  const { axiosPrivate } = useAxiosPrivate();
+  const { updateTask } = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<UpdateTaskResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
+
+  const execute = async (id: number, updates: UpdatableTaskProps) => {
+    setIsLoading(true);
+
+    try {
+      const response = await axiosPrivate.put<UpdateTaskResponse>(
+        `/task/${id}`,
+        updates
+      );
+
+      if (response.data.success) updateTask(id, response.data.data);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, error, execute: useCallback(execute, []), isLoading };
+}
+
 export function useLoadTasks() {
   type QueryParams = {
     completed?: boolean;
