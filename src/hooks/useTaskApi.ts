@@ -1,38 +1,42 @@
 /* eslint-disable no-console */
 import { useCallback, useState } from 'react';
-import formatISO from 'date-fns/formatISO';
 
 import { useAppDispatch, useAppState } from 'src/context/AppContext';
 import useAxiosPrivate from './useAxiosPrivate';
 
 export function useAddTask() {
-  const {
-    tasks: { all },
-  } = useAppState();
+  type AddTaskResponse = {
+    success: boolean;
+    data: Task;
+  };
+
+  const { axiosPrivate } = useAxiosPrivate();
   const { addTask } = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<AddTaskResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
-  const execute = useCallback(
-    (task: string) => {
-      const taskPayload: ITask = {
-        id: 100 * Math.random(),
-        title: task,
-        date: formatISO(new Date(), { representation: 'date' }),
-        complete: false,
-      };
-      const updatedTasks = [...all, taskPayload];
-      const stringifiedTasks = JSON.stringify(updatedTasks);
+  const execute = async (task: string) => {
+    setIsLoading(true);
 
-      try {
-        localStorage.setItem('tasks', stringifiedTasks);
-        addTask(taskPayload);
-      } catch (error) {
-        console.error('Unable to add task');
-      }
-    },
-    [all]
-  );
+    const taskPayload = { description: task };
 
-  return { execute };
+    try {
+      const response = await axiosPrivate.post<AddTaskResponse>(
+        '/task',
+        taskPayload
+      );
+
+      if (response.data.success) addTask(response.data.data);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, error, execute: useCallback(execute, []), isLoading };
 }
 
 export function useLoadTasks() {
@@ -44,7 +48,7 @@ export function useLoadTasks() {
 
   type GetTasksResponse = {
     count: number;
-    data: ITask[];
+    data: Task[];
   };
 
   const { axiosPrivate } = useAxiosPrivate();
@@ -66,6 +70,7 @@ export function useLoadTasks() {
       setIsLoading(false);
     } catch (err: unknown) {
       setError(err);
+      setIsLoading(false);
     }
   };
 
@@ -80,7 +85,7 @@ export function useDeleteTask() {
 
   const execute = useCallback(
     (taskId: number) => {
-      const updatedTasks = all.filter((task: ITask) => task.id !== taskId);
+      const updatedTasks = all.filter((task: Task) => task._id !== taskId);
       const stringifiedTasks = JSON.stringify(updatedTasks);
 
       try {
@@ -105,8 +110,8 @@ export function useCheckTask() {
   const execute = useCallback(
     (taskId: number) => {
       const tasks = [...all];
-      const taskIndex = tasks.findIndex((task) => task.id === taskId);
-      tasks[taskIndex].complete = true;
+      const taskIndex = tasks.findIndex((task) => task._id === taskId);
+      tasks[taskIndex].completed = true;
       const stringifiedTasks = JSON.stringify(tasks);
 
       try {
@@ -131,8 +136,8 @@ export function useUncheckTask() {
   const execute = useCallback(
     (taskId: number) => {
       const tasks = [...all];
-      const taskIndex = tasks.findIndex((task) => task.id === taskId);
-      tasks[taskIndex].complete = false;
+      const taskIndex = tasks.findIndex((task) => task._id === taskId);
+      tasks[taskIndex].completed = false;
       const stringifiedTasks = JSON.stringify(tasks);
 
       try {
