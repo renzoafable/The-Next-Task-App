@@ -1,9 +1,9 @@
 import format from 'date-fns/format';
-
-import { useAppState } from 'src/context/AppContext';
 import parseISO from 'date-fns/parseISO';
 import isSameDay from 'date-fns/isSameDay';
-import { Placeholder } from 'react-bootstrap';
+
+import { useAppState } from 'src/context/AppContext';
+import SkeletonLoader from 'src/components/SkeletonLoader';
 
 export default function DateStats() {
   const { tasks, isLoadingTasks } = useAppState();
@@ -17,9 +17,7 @@ export default function DateStats() {
   const tasksOverdueCount = incomplete.length - tasksTodayCount;
 
   const stats = isLoadingTasks ? (
-    <Placeholder as="p" animation="glow">
-      <Placeholder xs={12} bg="light" />
-    </Placeholder>
+    <SkeletonLoader />
   ) : (
     <>
       <span className="text-info mb-0 fs-6">{`${tasksTodayCount} Tasks Today`}</span>
