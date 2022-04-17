@@ -10,9 +10,9 @@ enum ACTION_TYPES {
   UNCHECK_TASK = 'UNCHECK_TASK',
 }
 
-type AddTaskAction = { type: ACTION_TYPES.ADD_TASK; payload: ITask };
+type AddTaskAction = { type: ACTION_TYPES.ADD_TASK; payload: Task };
 type DeleteTaskAction = { type: ACTION_TYPES.DELETE_TASK; payload: number };
-type LoadTaskAction = { type: ACTION_TYPES.LOAD_TASKS; payload: ITask[] };
+type LoadTaskAction = { type: ACTION_TYPES.LOAD_TASKS; payload: Task[] };
 type CheckTaskAction = { type: ACTION_TYPES.CHECK_TASK; payload: number };
 type UncheckTaskAction = { type: ACTION_TYPES.UNCHECK_TASK; payload: number };
 type ACTIONS =
@@ -23,9 +23,9 @@ type ACTIONS =
   | UncheckTaskAction;
 
 type AppStateTasks = {
-  complete: ITask[];
-  incomplete: ITask[];
-  all: ITask[];
+  complete: Task[];
+  incomplete: Task[];
+  all: Task[];
 };
 
 type AppStateContext = {
@@ -33,9 +33,9 @@ type AppStateContext = {
 };
 
 type AppDispatchContext = {
-  addTask: (task: ITask) => void;
+  addTask: (task: Task) => void;
   deleteTask: (taskId: number) => void;
-  loadTasks: (tasks: ITask[]) => void;
+  loadTasks: (tasks: Task[]) => void;
   checkTask: (taskId: number) => void;
   uncheckTask: (taskId: number) => void;
 };
@@ -80,17 +80,17 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
         ...state,
         tasks: {
           ...tasks,
-          all: all.filter((task) => task.id !== action.payload),
-          incomplete: incomplete.filter((task) => task.id !== action.payload),
-          complete: complete.filter((task) => task.id !== action.payload),
+          all: all.filter((task) => task._id !== action.payload),
+          incomplete: incomplete.filter((task) => task._id !== action.payload),
+          complete: complete.filter((task) => task._id !== action.payload),
         },
       };
     }
 
     case ACTION_TYPES.LOAD_TASKS: {
       const tasks = action.payload;
-      const complete = tasks.filter((task) => task.complete);
-      const incomplete = tasks.filter((task) => !task.complete);
+      const complete = tasks.filter((task) => task.completed);
+      const incomplete = tasks.filter((task) => !task.completed);
 
       return {
         ...state,
@@ -107,10 +107,10 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
       const { tasks } = state;
       const { complete, incomplete, all } = tasks;
 
-      const completedTasks: ITask[] = [...complete];
-      const checkedTask = all.find((task) => task.id === taskId);
+      const completedTasks: Task[] = [...complete];
+      const checkedTask = all.find((task) => task._id === taskId);
       if (checkedTask) {
-        checkedTask.complete = true;
+        checkedTask.completed = true;
         completedTasks.push(checkedTask);
       }
 
@@ -119,7 +119,7 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
         tasks: {
           ...tasks,
           complete: completedTasks,
-          incomplete: incomplete.filter((task) => task.id !== taskId),
+          incomplete: incomplete.filter((task) => task._id !== taskId),
         },
       };
     }
@@ -129,10 +129,10 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
       const { tasks } = state;
       const { complete, incomplete, all } = tasks;
 
-      const incompleteTasks: ITask[] = [...incomplete];
-      const uncheckedTask = all.find((task) => task.id === taskId);
+      const incompleteTasks: Task[] = [...incomplete];
+      const uncheckedTask = all.find((task) => task._id === taskId);
       if (uncheckedTask) {
-        uncheckedTask.complete = false;
+        uncheckedTask.completed = false;
         incompleteTasks.push(uncheckedTask);
       }
 
@@ -141,7 +141,7 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
         tasks: {
           ...tasks,
           incomplete: incompleteTasks,
-          complete: complete.filter((task) => task.id !== taskId),
+          complete: complete.filter((task) => task._id !== taskId),
         },
       };
     }
@@ -155,7 +155,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addTask = useCallback(
-    (task: ITask) => dispatch({ type: ACTION_TYPES.ADD_TASK, payload: task }),
+    (task: Task) => dispatch({ type: ACTION_TYPES.ADD_TASK, payload: task }),
     []
   );
 
@@ -166,7 +166,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
 
   const loadTasks = useCallback(
-    (tasks: ITask[]) =>
+    (tasks: Task[]) =>
       dispatch({ type: ACTION_TYPES.LOAD_TASKS, payload: tasks }),
     []
   );

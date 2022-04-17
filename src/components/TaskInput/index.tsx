@@ -1,11 +1,11 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 
 import { useAddTask } from 'src/hooks/useTaskApi';
+import SpinnerButton from '../SpinnerButton';
 
 export default function TaskInput() {
-  const { execute } = useAddTask();
+  const { execute, isLoading } = useAddTask();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [task, setTask] = React.useState('');
 
@@ -13,9 +13,9 @@ export default function TaskInput() {
     inputRef.current?.focus();
   });
 
-  const onSubmit = (e: React.SyntheticEvent) => {
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    execute(task);
+    await execute(task);
     setTask('');
   };
 
@@ -41,14 +41,15 @@ export default function TaskInput() {
         />
       </div>
       <div className="col-2 g-0">
-        <Button
+        <SpinnerButton
           variant="info"
           className="text-white"
           type="submit"
-          disabled={!task.length}
+          disabled={!task.length || isLoading}
+          isLoading={isLoading}
         >
           Add Task
-        </Button>
+        </SpinnerButton>
       </div>
     </Form>
   );

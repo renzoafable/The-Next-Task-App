@@ -32,6 +32,7 @@
         "import/extensions": "off",
         "arrow-body-style": "off",
         "no-param-reassign": "off",
+        "no-underscore-dangle": "off",
         "semi": ["error", "always"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
         "react/require-default-props": "off",

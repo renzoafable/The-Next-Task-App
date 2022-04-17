@@ -9,8 +9,8 @@ export default function DateStats() {
     tasks: { incomplete },
   } = useAppState();
   const currentDate = new Date();
-  const tasksTodayCount = incomplete.reduce((count: number, task: ITask) => {
-    const taskDate = parseISO(task.date);
+  const tasksTodayCount = incomplete.reduce((count: number, task: Task) => {
+    const taskDate = parseISO(task.createdAt);
     const areDatesEqual = isSameDay(currentDate, taskDate);
     return areDatesEqual ? count + 1 : count;
   }, 0);
