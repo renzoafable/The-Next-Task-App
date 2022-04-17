@@ -39,6 +39,39 @@ export function useAddTask() {
   return { data, error, execute: useCallback(execute, []), isLoading };
 }
 
+export function useUpdateTask() {
+  type UpdateTaskResponse = {
+    success: boolean;
+    data: Task;
+  };
+
+  const { axiosPrivate } = useAxiosPrivate();
+  const { updateTask } = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<UpdateTaskResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
+
+  const execute = async (id: number, updates: UpdatableTaskProps) => {
+    setIsLoading(true);
+
+    try {
+      const response = await axiosPrivate.put<UpdateTaskResponse>(
+        `/task/${id}`,
+        updates
+      );
+
+      if (response.data.success) updateTask(id, response.data.data);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, error, execute: useCallback(execute, []), isLoading };
+}
+
 export function useLoadTasks() {
   type QueryParams = {
     completed?: boolean;
@@ -93,58 +126,6 @@ export function useDeleteTask() {
         deleteTask(taskId);
       } catch (error) {
         console.error('Unable to delete task');
-      }
-    },
-    [all]
-  );
-
-  return { execute };
-}
-
-export function useCheckTask() {
-  const {
-    tasks: { all },
-  } = useAppState();
-  const { checkTask } = useAppDispatch();
-
-  const execute = useCallback(
-    (taskId: number) => {
-      const tasks = [...all];
-      const taskIndex = tasks.findIndex((task) => task._id === taskId);
-      tasks[taskIndex].completed = true;
-      const stringifiedTasks = JSON.stringify(tasks);
-
-      try {
-        localStorage.setItem('tasks', stringifiedTasks);
-        checkTask(taskId);
-      } catch (error) {
-        console.error('Unable to check task');
-      }
-    },
-    [all]
-  );
-
-  return { execute };
-}
-
-export function useUncheckTask() {
-  const {
-    tasks: { all },
-  } = useAppState();
-  const { uncheckTask } = useAppDispatch();
-
-  const execute = useCallback(
-    (taskId: number) => {
-      const tasks = [...all];
-      const taskIndex = tasks.findIndex((task) => task._id === taskId);
-      tasks[taskIndex].completed = false;
-      const stringifiedTasks = JSON.stringify(tasks);
-
-      try {
-        localStorage.setItem('tasks', stringifiedTasks);
-        uncheckTask(taskId);
-      } catch (error) {
-        console.error('Unable to uncheck task');
       }
     },
     [all]

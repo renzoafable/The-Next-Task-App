@@ -2,11 +2,8 @@ import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
 
-import {
-  useDeleteTask,
-  useCheckTask,
-  useUncheckTask,
-} from 'src/hooks/useTaskApi';
+import { useDeleteTask, useUpdateTask } from 'src/hooks/useTaskApi';
+import { Spinner } from 'react-bootstrap';
 
 const rootClasses = [
   'task',
@@ -28,17 +25,16 @@ export default function Task({
   createdAt,
 }: Pick<Task, '_id' | 'completed' | 'description' | 'createdAt'>) {
   const { execute: executeDeleteTask } = useDeleteTask();
-  const { execute: executeCheckTask } = useCheckTask();
-  const { execute: executeUncheckTask } = useUncheckTask();
+  const { execute, isLoading } = useUpdateTask();
 
   const parsedDate = parseISO(createdAt);
   const dateString = format(parsedDate, 'EEE, LLL dd, yyyy');
 
   const onClickCheckbox = () => {
     if (completed) {
-      executeUncheckTask(_id);
+      execute(_id, { completed: false });
     } else {
-      executeCheckTask(_id);
+      execute(_id, { completed: true });
     }
   };
 
@@ -48,12 +44,22 @@ export default function Task({
 
   return (
     <div className={clsx(...rootClasses)}>
-      <input
-        className="form-check-input mt-0 me-3"
-        type="checkbox"
-        checked={completed}
-        onChange={onClickCheckbox}
-      />
+      {isLoading ? (
+        <Spinner
+          animation="border"
+          variant="light"
+          size="sm"
+          className="me-3"
+        />
+      ) : (
+        <input
+          className="form-check-input mt-0 me-3"
+          type="checkbox"
+          checked={completed}
+          onChange={onClickCheckbox}
+          disabled={isLoading}
+        />
+      )}
       <div className="card-body">
         <p
           className={clsx(...titleClasses, {
