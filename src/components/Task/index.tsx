@@ -2,7 +2,11 @@ import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
 
-import { useDeleteTask, useCheckTask, useUncheckTask } from 'src/hooks/useApi';
+import {
+  useDeleteTask,
+  useCheckTask,
+  useUncheckTask,
+} from 'src/hooks/useTaskApi';
 
 const rootClasses = [
   'task',
