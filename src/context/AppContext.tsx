@@ -109,6 +109,36 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
       };
     }
 
+    case ACTION_TYPES.UPDATE_TASK: {
+      const { id, task: updatedTask } = action.payload;
+      const { tasks } = state;
+      const { complete, incomplete, all } = tasks;
+
+      let completedTasks: Task[] = [...complete];
+      let incompleteTasks: Task[] = [...incomplete];
+      let taskToUpdate = all.find((task) => task._id === id);
+      if (taskToUpdate) {
+        taskToUpdate = { ...taskToUpdate, ...updatedTask };
+
+        if (taskToUpdate.completed) {
+          completedTasks.push(taskToUpdate);
+          incompleteTasks = incompleteTasks.filter((task) => task._id !== id);
+        } else {
+          incompleteTasks.push(taskToUpdate);
+          completedTasks = completedTasks.filter((task) => task._id !== id);
+        }
+      }
+
+      return {
+        ...state,
+        tasks: {
+          ...tasks,
+          complete: completedTasks,
+          incomplete: incompleteTasks,
+        },
+      };
+    }
+
     case ACTION_TYPES.CHECK_TASK: {
       const taskId = action.payload;
       const { tasks } = state;
