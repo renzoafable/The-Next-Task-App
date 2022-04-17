@@ -17,7 +17,7 @@ export default function DateStats() {
   const tasksOverdueCount = incomplete.length - tasksTodayCount;
 
   const stats = isLoadingTasks ? (
-    <Placeholder as="p" animation="glow" classNa>
+    <Placeholder as="p" animation="glow">
       <Placeholder xs={12} bg="light" />
     </Placeholder>
   ) : (
