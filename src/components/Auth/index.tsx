@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Placeholder } from 'react-bootstrap';
 
 import { useAuthState } from 'src/context/AuthContext';
 import { useSilentLogin } from 'src/hooks/useAuthApi';
+import SkeletonLoader from '../SkeletonLoader';
 
 type AuthProps = {
   children: JSX.Element;
@@ -25,16 +25,7 @@ export default function Auth({ children }: AuthProps) {
   }, [isLoading, user]);
 
   if (isLoading || !user) {
-    return (
-      <>
-        <Placeholder as="p" animation="glow">
-          <Placeholder xs={12} bg="light" />
-        </Placeholder>
-        <Placeholder as="p" animation="glow">
-          <Placeholder xs={12} bg="light" />
-        </Placeholder>
-      </>
-    );
+    return <SkeletonLoader levels={3} />;
   }
 
   return children;

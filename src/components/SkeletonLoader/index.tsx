@@ -1,14 +1,23 @@
 import { Placeholder } from 'react-bootstrap';
 
-export default function SkeletonLoader() {
-  return (
+type SkeletonLoaderProps = {
+  levels?: number;
+};
+
+export default function SkeletonLoader(props: SkeletonLoaderProps) {
+  const { levels = 1 } = props;
+
+  const loader = (
     <>
-      <Placeholder as="p" animation="glow">
-        <Placeholder xs={12} bg="light" />
-      </Placeholder>
-      <Placeholder as="p" animation="glow">
-        <Placeholder xs={12} bg="light" />
-      </Placeholder>
+      {Array(levels)
+        .fill(1)
+        .map(() => (
+          <Placeholder as="p" animation="glow">
+            <Placeholder xs={12} bg="light" />
+          </Placeholder>
+        ))}
     </>
   );
+
+  return loader;
 }

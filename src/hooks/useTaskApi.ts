@@ -85,14 +85,13 @@ export function useLoadTasks() {
   };
 
   const { axiosPrivate } = useAxiosPrivate();
-  const { loadTasks } = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const { loadTasks, startLoadingTasks, finishLoadingTasks } = useAppDispatch();
   const [data, setData] = useState<GetTasksResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
 
   const execute = async (queryParams: QueryParams = {}) => {
     try {
-      setIsLoading(true);
+      startLoadingTasks();
 
       const response = await axiosPrivate.get<GetTasksResponse>('/task', {
         params: queryParams,
@@ -100,14 +99,14 @@ export function useLoadTasks() {
 
       setData(response.data);
       loadTasks(response.data.data);
-      setIsLoading(false);
+      finishLoadingTasks();
     } catch (err: unknown) {
       setError(err);
-      setIsLoading(false);
+      finishLoadingTasks();
     }
   };
 
-  return { data, error, execute: useCallback(execute, []), isLoading };
+  return { data, error, execute: useCallback(execute, []) };
 }
 
 export function useDeleteTask() {
