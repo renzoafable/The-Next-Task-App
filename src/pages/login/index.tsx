@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { Container, Form } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
+import Link from 'next/link';
 
 import SpinnerButton from 'src/components/SpinnerButton';
 import SkeletonLoader from 'src/components/SkeletonLoader';
@@ -80,6 +81,12 @@ export default function Login() {
             Login
           </SpinnerButton>
         </div>
+        <p className="text-white text-end mt-4 fs-6">
+          No account yet?{' '}
+          <Link href="/register">
+            <a className="text-decoration-none text-info">Register</a>
+          </Link>
+        </p>
       </Form>
     </>
   ) : (
@@ -93,7 +100,10 @@ export default function Login() {
         fluid="sm"
         className="w-50 position-absolute top-50 start-50 translate-middle"
       >
-        {content}
+        <Row>
+          <Col xs={2} />
+          <Col xs={8}>{content}</Col>
+        </Row>
       </Container>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { Container, Form } from 'react-bootstrap';
+import Link from 'next/link';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 
 import { useRegisterUser } from 'src/hooks/useAuthApi';
 import SpinnerButton from 'src/components/SpinnerButton';
@@ -48,65 +49,76 @@ export default function Register(): JSX.Element {
         fluid="sm"
         className="w-50 position-absolute top-50 start-50 translate-middle"
       >
-        <h1 className="display-6 text-white text-center mb-3 fw-bold">
-          Register
-        </h1>
-        <Form onSubmit={formSubmitHandler}>
-          <Form.Group className="mb-3" controlId="formName">
-            <Form.Label className="text-white">Name</Form.Label>
-            <Form.Control
-              value={name}
-              onChange={onChangeName}
-              required
-              type="text"
-              placeholder="Enter name"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formAge">
-            <Form.Label className="text-white">Age</Form.Label>
-            <Form.Control
-              value={age}
-              onChange={onChangeAge}
-              required
-              type="number"
-              placeholder="Enter age"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label className="text-white">Email address</Form.Label>
-            <Form.Control
-              value={email}
-              onChange={onChangeEmail}
-              required
-              type="email"
-              placeholder="Enter email"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label className="text-white">Password</Form.Label>
-            <Form.Control
-              value={password}
-              onChange={onChangePassword}
-              required
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Group>
-          <div className="d-flex">
-            <div className="flex-grow-1" />
-            <SpinnerButton
-              variant="info"
-              isLoading={isLoading}
-              className="text-white"
-              type="submit"
-            >
+        <Row>
+          <Col xs={2} />
+          <Col xs={8}>
+            <h1 className="display-6 text-white text-center mb-3 fw-bold">
               Register
-            </SpinnerButton>
-          </div>
-        </Form>
+            </h1>
+            <Form onSubmit={formSubmitHandler}>
+              <Form.Group className="mb-3" controlId="formName">
+                <Form.Label className="text-white">Name</Form.Label>
+                <Form.Control
+                  value={name}
+                  onChange={onChangeName}
+                  required
+                  type="text"
+                  placeholder="Enter name"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formAge">
+                <Form.Label className="text-white">Age</Form.Label>
+                <Form.Control
+                  value={age}
+                  onChange={onChangeAge}
+                  required
+                  type="number"
+                  placeholder="Enter age"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formEmail">
+                <Form.Label className="text-white">Email address</Form.Label>
+                <Form.Control
+                  value={email}
+                  onChange={onChangeEmail}
+                  required
+                  type="email"
+                  placeholder="Enter email"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formPassword">
+                <Form.Label className="text-white">Password</Form.Label>
+                <Form.Control
+                  value={password}
+                  onChange={onChangePassword}
+                  required
+                  type="password"
+                  placeholder="Password"
+                />
+              </Form.Group>
+              <div className="d-flex">
+                <div className="flex-grow-1" />
+                <SpinnerButton
+                  variant="info"
+                  isLoading={isLoading}
+                  className="text-white"
+                  type="submit"
+                >
+                  Register
+                </SpinnerButton>
+              </div>
+              <p className="text-white text-end mt-4 fs-6">
+                Already have an account?{' '}
+                <Link href="/login">
+                  <a className="text-decoration-none text-info">Login</a>
+                </Link>
+              </p>
+            </Form>
+          </Col>
+        </Row>
       </Container>
     </div>
   );

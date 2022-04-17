@@ -1,4 +1,4 @@
-import React, { Reducer, useCallback, useMemo, useReducer } from 'react';
+import React, { Reducer, useMemo, useReducer } from 'react';
 import createCtx from 'src/helpers/context';
 
 enum ACTION_TYPES {
@@ -51,16 +51,11 @@ const reducer: Reducer<AuthState, ACTIONS> = (state, action): AuthState => {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const setUser = useCallback(
-    (user: AuthUser) =>
-      dispatch({ type: ACTION_TYPES.SET_USER, payload: user }),
-    []
-  );
+  const setUser = (user: AuthUser) => {
+    dispatch({ type: ACTION_TYPES.SET_USER, payload: user });
+  };
 
-  const unsetUser = useCallback(
-    () => dispatch({ type: ACTION_TYPES.UNSET_USER }),
-    []
-  );
+  const unsetUser = () => dispatch({ type: ACTION_TYPES.UNSET_USER });
 
   const actions = useMemo(() => ({ setUser, unsetUser }), []);
 
