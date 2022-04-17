@@ -3,19 +3,23 @@ import Head from 'next/head';
 
 import Tasks from 'src/components/Tasks';
 import { useAppState } from 'src/context/AppContext';
-import { useLoadTasks } from 'src/hooks/useApi';
+import { useLoadTasks } from 'src/hooks/useTaskApi';
+import SkeletonLoader from 'src/components/SkeletonLoader';
 
 const title = 'Incomplete Tasks';
 
 export default function Incomplete() {
-  const {
-    tasks: { incomplete },
-  } = useAppState();
-  const { execute } = useLoadTasks();
+  const { execute, isLoading } = useLoadTasks();
+  const { tasks } = useAppState();
+  const { incomplete } = tasks;
 
   useEffect(() => {
     execute();
   }, []);
+
+  if (isLoading) {
+    return <SkeletonLoader />;
+  }
 
   return (
     <div>

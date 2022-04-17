@@ -2,7 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { useAddTask } from 'src/hooks/useApi';
+import { useAddTask } from 'src/hooks/useTaskApi';
 
 export default function TaskInput() {
   const { execute } = useAddTask();

@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import formatISO from 'date-fns/formatISO';
 
 import { useAppDispatch, useAppState } from 'src/context/AppContext';
+import useAxiosPrivate from './useAxiosPrivate';
 
 export function useAddTask() {
   const {
@@ -35,19 +36,40 @@ export function useAddTask() {
 }
 
 export function useLoadTasks() {
-  const {
-    tasks: { all },
-  } = useAppState();
+  type QueryParams = {
+    completed?: boolean;
+    limit?: number;
+    skip?: number;
+  };
+
+  type GetTasksResponse = {
+    count: number;
+    data: ITask[];
+  };
+
+  const { axiosPrivate } = useAxiosPrivate();
   const { loadTasks } = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<GetTasksResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
-  const execute = useCallback(() => {
-    const stringifiedTasks = localStorage.getItem('tasks') ?? '[]';
-    const parsedTasks = JSON.parse(stringifiedTasks);
+  const execute = async (queryParams: QueryParams = {}) => {
+    try {
+      setIsLoading(true);
 
-    loadTasks(parsedTasks);
-  }, [all]);
+      const response = await axiosPrivate.get<GetTasksResponse>('/task', {
+        params: queryParams,
+      });
 
-  return { execute };
+      setData(response.data);
+      loadTasks(response.data.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+    }
+  };
+
+  return { data, error, execute: useCallback(execute, []), isLoading };
 }
 
 export function useDeleteTask() {
