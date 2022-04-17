@@ -21,24 +21,29 @@ const rootClasses = [
 
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
-export default function Task({ id, complete, title, date }: ITask) {
+export default function Task({
+  _id,
+  completed,
+  description,
+  createdAt,
+}: Pick<Task, '_id' | 'completed' | 'description' | 'createdAt'>) {
   const { execute: executeDeleteTask } = useDeleteTask();
   const { execute: executeCheckTask } = useCheckTask();
   const { execute: executeUncheckTask } = useUncheckTask();
 
-  const parsedDate = parseISO(date);
+  const parsedDate = parseISO(createdAt);
   const dateString = format(parsedDate, 'EEE, LLL dd, yyyy');
 
   const onClickCheckbox = () => {
-    if (complete) {
-      executeUncheckTask(id);
+    if (completed) {
+      executeUncheckTask(_id);
     } else {
-      executeCheckTask(id);
+      executeCheckTask(_id);
     }
   };
 
   const onClickDelete = () => {
-    executeDeleteTask(id);
+    executeDeleteTask(_id);
   };
 
   return (
@@ -46,16 +51,16 @@ export default function Task({ id, complete, title, date }: ITask) {
       <input
         className="form-check-input mt-0 me-3"
         type="checkbox"
-        checked={complete}
+        checked={completed}
         onChange={onClickCheckbox}
       />
       <div className="card-body">
         <p
           className={clsx(...titleClasses, {
-            'text-decoration-line-through': complete,
+            'text-decoration-line-through': completed,
           })}
         >
-          {title}
+          {description}
         </p>
         <p className="card-subtitle fs-6 text-muted mb-0">{dateString}</p>
       </div>

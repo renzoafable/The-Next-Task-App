@@ -7,12 +7,12 @@ import clsx from 'classnames';
 import Task from 'src/components/Task';
 
 type TasksByDay = {
-  [key: string]: ITask[];
+  [key: string]: Task[];
 };
 
-const organizeTasksByDay = (tasks: ITask[]): TasksByDay => {
+const organizeTasksByDay = (tasks: Task[]): TasksByDay => {
   return tasks.reduce((map: TasksByDay, task) => {
-    const dayOfTask = formatISO(parseISO(task.date), {
+    const dayOfTask = formatISO(parseISO(task.createdAt), {
       representation: 'date',
     });
 
@@ -24,7 +24,7 @@ const organizeTasksByDay = (tasks: ITask[]): TasksByDay => {
 };
 
 type TasksProps = {
-  tasks: ITask[];
+  tasks: Task[];
 };
 
 export default function Tasks({ tasks }: TasksProps) {
@@ -52,15 +52,16 @@ export default function Tasks({ tasks }: TasksProps) {
               >
                 {dateString}
               </p>
-              {tasksByDay[day].map(({ id, complete, title, date }: ITask) => (
-                <Task
-                  key={id}
-                  id={id}
-                  complete={complete}
-                  title={title}
-                  date={date}
-                />
-              ))}
+              {tasksByDay[day].map(
+                (
+                  taskProps: Pick<
+                    Task,
+                    '_id' | 'completed' | 'description' | 'createdAt'
+                  >
+                ) => (
+                  <Task key={taskProps._id} {...taskProps} />
+                )
+              )}
             </div>
           );
         })}
