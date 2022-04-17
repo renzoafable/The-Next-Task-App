@@ -32,7 +32,7 @@ export default function AppContainer(props: AppContainerProps) {
   return (
     <Container
       fluid="md"
-      className="shadow-lg h-75 w-50 rounded-2 p-4 overflow-auto position-relative"
+      className="shadow-lg h-75 rounded-2 p-4 overflow-auto position-relative"
     >
       {content}
     </Container>

@@ -102,3 +102,30 @@ export function useSilentLogin() {
 
   return { isLoading, silentLogin };
 }
+
+export function useLogout() {
+  const { unsetUser } = useAuthDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<unknown>(null);
+  const session = useSession();
+  const { axiosPrivate } = useAxiosPrivate();
+
+  const execute = async () => {
+    setIsLoading(true);
+
+    try {
+      // Purposely remove user and token before sending the logout request to the API since we don't really care about the result at this point
+      unsetUser();
+      session.setAuthToken();
+
+      await axiosPrivate.post('/user/logout');
+
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+      setIsLoading(false);
+    }
+  };
+
+  return { error, execute: useCallback(execute, []), isLoading };
+}
