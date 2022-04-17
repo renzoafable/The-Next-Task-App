@@ -9,16 +9,16 @@ import SkeletonLoader from 'src/components/SkeletonLoader';
 const title = 'Incomplete Tasks';
 
 export default function Incomplete() {
-  const { execute, isLoading } = useLoadTasks();
-  const { tasks } = useAppState();
+  const { execute } = useLoadTasks();
+  const { tasks, isLoadingTasks } = useAppState();
   const { incomplete } = tasks;
 
   useEffect(() => {
     execute();
   }, []);
 
-  if (isLoading) {
-    return <SkeletonLoader />;
+  if (isLoadingTasks) {
+    return <SkeletonLoader levels={4} />;
   }
 
   return (

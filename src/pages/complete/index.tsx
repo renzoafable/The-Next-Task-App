@@ -9,16 +9,16 @@ import SkeletonLoader from 'src/components/SkeletonLoader';
 const title = 'Completed Tasks';
 
 export default function CompletedTodos() {
-  const { execute, isLoading } = useLoadTasks();
-  const { tasks } = useAppState();
+  const { execute } = useLoadTasks();
+  const { tasks, isLoadingTasks } = useAppState();
   const { complete } = tasks;
 
   useEffect(() => {
     execute();
   }, []);
 
-  if (isLoading) {
-    return <SkeletonLoader />;
+  if (isLoadingTasks) {
+    return <SkeletonLoader levels={4} />;
   }
 
   return (

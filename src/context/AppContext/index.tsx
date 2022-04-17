@@ -1,26 +1,7 @@
 import React, { useReducer, useMemo, Reducer } from 'react';
 
 import createCtx from 'src/helpers/context';
-
-enum ACTION_TYPES {
-  ADD_TASK = 'ADD_TASK',
-  DELETE_TASK = 'DELETE_TASK',
-  LOAD_TASKS = 'LOAD_TASKS',
-  UPDATE_TASK = 'UPDATE_TASK',
-}
-
-type AddTaskAction = { type: ACTION_TYPES.ADD_TASK; payload: Task };
-type DeleteTaskAction = { type: ACTION_TYPES.DELETE_TASK; payload: number };
-type LoadTaskAction = { type: ACTION_TYPES.LOAD_TASKS; payload: Task[] };
-type UpdateTaskAction = {
-  type: ACTION_TYPES.UPDATE_TASK;
-  payload: { id: number; task: Task };
-};
-type ACTIONS =
-  | AddTaskAction
-  | DeleteTaskAction
-  | LoadTaskAction
-  | UpdateTaskAction;
+import { ACTIONS, ACTION_TYPES } from './dispatchActions';
 
 type AppStateTasks = {
   complete: Task[];
@@ -29,13 +10,16 @@ type AppStateTasks = {
 };
 
 type AppStateContext = {
+  isLoadingTasks: boolean;
   tasks: AppStateTasks;
 };
 
 type AppDispatchContext = {
   addTask: (task: Task) => void;
   deleteTask: (taskId: number) => void;
+  startLoadingTasks: () => void;
   loadTasks: (tasks: Task[]) => void;
+  finishLoadingTasks: () => void;
   updateTask: (id: number, updatedTask: Task) => void;
 };
 
@@ -43,6 +27,7 @@ const [useAppState, AppStateProvider] = createCtx<AppStateContext>();
 const [useAppDispatch, AppDispatchProvider] = createCtx<AppDispatchContext>();
 
 const initialState: AppStateContext = {
+  isLoadingTasks: false,
   tasks: {
     complete: [],
     incomplete: [],
@@ -86,6 +71,13 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
       };
     }
 
+    case ACTION_TYPES.START_LOAD_TASKS: {
+      return {
+        ...state,
+        isLoadingTasks: true,
+      };
+    }
+
     case ACTION_TYPES.LOAD_TASKS: {
       const tasks = action.payload;
       const complete = tasks.filter((task) => task.completed);
@@ -98,6 +90,13 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
           incomplete,
           all: tasks,
         },
+      };
+    }
+
+    case ACTION_TYPES.FINISH_LOAD_TASKS: {
+      return {
+        ...state,
+        isLoadingTasks: false,
       };
     }
 
@@ -147,8 +146,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: ACTION_TYPES.DELETE_TASK, payload: taskId });
   };
 
+  const startLoadingTasks = () => {
+    dispatch({ type: ACTION_TYPES.START_LOAD_TASKS });
+  };
+
   const loadTasks = (tasks: Task[]) => {
     dispatch({ type: ACTION_TYPES.LOAD_TASKS, payload: tasks });
+  };
+
+  const finishLoadingTasks = () => {
+    dispatch({ type: ACTION_TYPES.FINISH_LOAD_TASKS });
   };
 
   const updateTask = (id: number, updatedTask: Task) => {
@@ -162,7 +169,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       addTask,
       deleteTask,
+      startLoadingTasks,
       loadTasks,
+      finishLoadingTasks,
       updateTask,
     }),
     []
