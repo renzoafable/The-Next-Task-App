@@ -24,17 +24,17 @@ export default function Task({
   description,
   createdAt,
 }: Pick<Task, '_id' | 'completed' | 'description' | 'createdAt'>) {
-  const { execute: executeDeleteTask } = useDeleteTask();
-  const { execute, isLoading } = useUpdateTask();
+  const { execute: executeDeleteTask, isLoading: isDeleting } = useDeleteTask();
+  const { execute: executeUpdateTask, isLoading: isUpdating } = useUpdateTask();
 
   const parsedDate = parseISO(createdAt);
   const dateString = format(parsedDate, 'EEE, LLL dd, yyyy');
 
   const onClickCheckbox = () => {
     if (completed) {
-      execute(_id, { completed: false });
+      executeUpdateTask(_id, { completed: false });
     } else {
-      execute(_id, { completed: true });
+      executeUpdateTask(_id, { completed: true });
     }
   };
 
@@ -44,7 +44,7 @@ export default function Task({
 
   return (
     <div className={clsx(...rootClasses)}>
-      {isLoading ? (
+      {isUpdating ? (
         <Spinner
           animation="border"
           variant="light"
@@ -57,7 +57,7 @@ export default function Task({
           type="checkbox"
           checked={completed}
           onChange={onClickCheckbox}
-          disabled={isLoading}
+          disabled={isUpdating || isDeleting}
         />
       )}
       <div className="card-body">
@@ -70,12 +70,16 @@ export default function Task({
         </p>
         <p className="card-subtitle fs-6 text-muted mb-0">{dateString}</p>
       </div>
-      <TrashIcon
-        className="delete-button"
-        size={20}
-        color="#dc3545"
-        onClick={onClickDelete}
-      />
+      {isDeleting ? (
+        <Spinner animation="border" variant="light" size="sm" />
+      ) : (
+        <TrashIcon
+          className="delete-button"
+          size={20}
+          color="#dc3545"
+          onClick={onClickDelete}
+        />
+      )}
     </div>
   );
 }

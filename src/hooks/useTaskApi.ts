@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { useCallback, useState } from 'react';
 
-import { useAppDispatch, useAppState } from 'src/context/AppContext';
+import { useAppDispatch } from 'src/context/AppContext';
 import useAxiosPrivate from './useAxiosPrivate';
 
 export function useAddTask() {
@@ -111,25 +111,33 @@ export function useLoadTasks() {
 }
 
 export function useDeleteTask() {
-  const {
-    tasks: { all },
-  } = useAppState();
+  type DeleteTaskResponse = {
+    success: boolean;
+    data?: Record<string, unknown>;
+  };
+
+  const { axiosPrivate } = useAxiosPrivate();
   const { deleteTask } = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<DeleteTaskResponse | null>(null);
+  const [error, setError] = useState<unknown>(null);
 
-  const execute = useCallback(
-    (taskId: number) => {
-      const updatedTasks = all.filter((task: Task) => task._id !== taskId);
-      const stringifiedTasks = JSON.stringify(updatedTasks);
+  const execute = async (taskId: number) => {
+    setIsLoading(true);
 
-      try {
-        localStorage.setItem('tasks', stringifiedTasks);
-        deleteTask(taskId);
-      } catch (error) {
-        console.error('Unable to delete task');
-      }
-    },
-    [all]
-  );
+    try {
+      const response = await axiosPrivate.delete<DeleteTaskResponse>(
+        `/task/${taskId}`
+      );
 
-  return { execute };
+      if (response.data.success) deleteTask(taskId);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (err: unknown) {
+      setError(err);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, error, execute: useCallback(execute, []), isLoading };
 }
