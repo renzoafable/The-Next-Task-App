@@ -5,7 +5,7 @@ import DateStats from './DateStats';
 
 const pagePaths: { href: string; label: string }[] = [
   {
-    href: '/',
+    href: '/incomplete',
     label: 'Incomplete Tasks',
   },
   {
