@@ -30,11 +30,12 @@ export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
       setData(response.data);
       setUser(response.data.user);
       session.setAuthToken(response.data.token);
-      setIsLoading(false);
 
       if (redirectTo) {
-        router.push(redirectTo);
+        await router.push(redirectTo);
       }
+
+      setIsLoading(false);
     } catch (err: unknown) {
       setError(err);
     }
@@ -63,13 +64,15 @@ export function useLogin({ redirectTo }: AuthHookOptions = {}) {
       setData(response.data);
       setUser(response.data.user);
       session.setAuthToken(response.data.token);
-      setIsLoading(false);
 
       if (redirectTo) {
-        router.push(redirectTo);
+        await router.push(redirectTo);
       }
+
+      setIsLoading(false);
     } catch (err: unknown) {
       setError(err);
+      setIsLoading(false);
     }
   };
 
