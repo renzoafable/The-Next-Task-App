@@ -13,8 +13,8 @@ export default function AuthDetails() {
 
   const greeting = user ? (
     <p className="text-white fs-6 mb-0">
-      Hi, <span className="text-primary fw-bolder">{user.name}</span>! Finish
-      your tasks today!
+      Hi, <span className="text-info fw-bolder">{user.name}</span>! Finish your
+      tasks today!
     </p>
   ) : null;
 
@@ -25,7 +25,7 @@ export default function AuthDetails() {
       <Button
         variant="link"
         onClick={onClickLogout}
-        className="fs-6 text-white text-decoration-none"
+        className="fs-6 text-decoration-none text-light"
       >
         Logout
       </Button>
