@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useAuthState } from 'src/context/AuthContext';
 import { useSilentLogin } from 'src/hooks/useAuthApi';
-import SkeletonLoader from '../SkeletonLoader';
+import SplashScreen from '../SplashScreen';
 
 type AuthProps = {
   children: JSX.Element;
@@ -25,7 +25,7 @@ export default function Auth({ children }: AuthProps) {
   }, [isLoading, user]);
 
   if (isLoading || !user) {
-    return <SkeletonLoader levels={3} />;
+    return <SplashScreen />;
   }
 
   return children;
