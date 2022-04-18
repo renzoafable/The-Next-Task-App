@@ -30,41 +30,46 @@ type TasksProps = {
 export default function Tasks({ tasks }: TasksProps) {
   const tasksByDay = organizeTasksByDay(tasks);
 
-  return (
-    <>
-      {Object.keys(tasksByDay)
-        .sort((a, b) => parseISO(b).valueOf() - parseISO(a).valueOf())
-        .map((day) => {
-          const taskDate = parseISO(day);
-          const isDateToday = isSameDay(taskDate, new Date());
-          const dateString = isDateToday
-            ? 'Today'
-            : format(taskDate, 'EEE, LLL dd, yyyy');
+  const content =
+    Object.keys(tasksByDay).length > 0 ? (
+      <>
+        {Object.keys(tasksByDay)
+          .sort((a, b) => parseISO(b).valueOf() - parseISO(a).valueOf())
+          .map((day) => {
+            const taskDate = parseISO(day);
+            const isDateToday = isSameDay(taskDate, new Date());
+            const dateString = isDateToday
+              ? 'Today'
+              : format(taskDate, 'EEE, LLL dd, yyyy');
 
-          return (
-            <div className="tasks" key={day}>
-              <p
-                className={clsx(
-                  'fs-5',
-                  'mb-2',
-                  isDateToday ? 'text-info' : 'text-danger'
+            return (
+              <div className="tasks" key={day}>
+                <p
+                  className={clsx(
+                    'fs-5',
+                    'mb-2',
+                    isDateToday ? 'text-info' : 'text-danger'
+                  )}
+                >
+                  {dateString}
+                </p>
+                {tasksByDay[day].map(
+                  (
+                    taskProps: Pick<
+                      Task,
+                      '_id' | 'completed' | 'description' | 'createdAt'
+                    >
+                  ) => (
+                    <Task key={taskProps._id} {...taskProps} />
+                  )
                 )}
-              >
-                {dateString}
-              </p>
-              {tasksByDay[day].map(
-                (
-                  taskProps: Pick<
-                    Task,
-                    '_id' | 'completed' | 'description' | 'createdAt'
-                  >
-                ) => (
-                  <Task key={taskProps._id} {...taskProps} />
-                )
-              )}
-            </div>
-          );
-        })}
-    </>
-  );
+              </div>
+            );
+          })}
+      </>
+    ) : (
+      <p className="text-muted text-center">No tasks to display.</p>
+    );
+
+  return content;
 }
