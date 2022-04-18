@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useAuthState } from 'src/context/AuthContext';
 import { useSilentLogin } from 'src/hooks/useAuthApi';
-import SplashScreen from '../SplashScreen';
+import SplashScreen from 'src/components/SplashScreen';
 
 type AuthProps = {
   children: JSX.Element;
