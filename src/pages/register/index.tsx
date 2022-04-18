@@ -47,11 +47,11 @@ export default function Register(): JSX.Element {
       <Head>{title}</Head>
       <Container
         fluid="sm"
-        className="w-50 position-absolute top-50 start-50 translate-middle"
+        className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={2} />
-          <Col xs={8}>
+          <Col xs={4} />
+          <Col xs={4}>
             <h1 className="display-6 text-white text-center mb-3 fw-bold">
               Register
             </h1>

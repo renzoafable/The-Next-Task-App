@@ -98,11 +98,11 @@ export default function Login() {
       <Head>{title}</Head>
       <Container
         fluid="sm"
-        className="w-50 position-absolute top-50 start-50 translate-middle"
+        className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={2} />
-          <Col xs={8}>{content}</Col>
+          <Col xs={4} />
+          <Col xs={4}>{content}</Col>
         </Row>
       </Container>
     </div>
