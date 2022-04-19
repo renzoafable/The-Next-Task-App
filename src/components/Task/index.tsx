@@ -1,12 +1,12 @@
 import clsx from 'classnames';
 import { Trash2 as TrashIcon } from 'react-feather';
 import { format, parseISO } from 'date-fns';
-
-import { useDeleteTask, useUpdateTask } from 'src/hooks/useTaskApi';
 import { Spinner } from 'react-bootstrap';
 
+import { useDeleteTask, useUpdateTask } from 'src/hooks/useTaskApi';
+
 const rootClasses = [
-  'task',
+  'task-item',
   'card',
   'bg-transparent',
   'border-light',
@@ -18,12 +18,9 @@ const rootClasses = [
 
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
-export default function Task({
-  _id,
-  completed,
-  description,
-  createdAt,
-}: Pick<Task, '_id' | 'completed' | 'description' | 'createdAt'>) {
+export default function Task({ task }: { task: Task }) {
+  const { createdAt, completed, _id, description } = task;
+
   const { execute: executeDeleteTask, isLoading: isDeleting } = useDeleteTask();
   const { execute: executeUpdateTask, isLoading: isUpdating } = useUpdateTask();
 
