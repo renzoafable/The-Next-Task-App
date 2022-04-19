@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 
-import Tasks from 'src/components/Tasks';
+import TaskList from 'src/components/TaskList';
 import { useAppState } from 'src/context/AppContext';
 import { useLoadTasks } from 'src/hooks/useTaskApi';
 import SkeletonLoader from 'src/components/SkeletonLoader';
@@ -26,7 +26,7 @@ export default function Incomplete() {
       <Head>
         <title>{title}</title>
       </Head>
-      <Tasks tasks={incomplete} />
+      <TaskList tasks={incomplete} />
     </div>
   );
 }

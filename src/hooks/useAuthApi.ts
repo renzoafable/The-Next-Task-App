@@ -10,10 +10,27 @@ type AuthHookOptions = {
   redirectTo?: string;
 };
 
+type AuthUserPayload = {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+};
+
+type LoginPayload = {
+  email: string;
+  password: string;
+};
+
+type AuthenticatedResponse = {
+  user: AuthUser;
+  token: string;
+};
+
 export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
   const { setUser } = useAuthDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AuthResponse | null>(null);
+  const [data, setData] = useState<AuthenticatedResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const router = useRouter();
   const session = useSession();
@@ -22,7 +39,7 @@ export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
     try {
       setIsLoading(true);
 
-      const response = await axios.post<AuthResponse>(
+      const response = await axios.post<AuthenticatedResponse>(
         '/user/register',
         userPayload
       );
@@ -47,16 +64,16 @@ export function useRegisterUser({ redirectTo }: AuthHookOptions = {}) {
 export function useLogin({ redirectTo }: AuthHookOptions = {}) {
   const { setUser } = useAuthDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AuthResponse | null>(null);
+  const [data, setData] = useState<AuthenticatedResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const router = useRouter();
   const session = useSession();
 
-  const execute = async (loginPayload: AuthLoginPayload): Promise<void> => {
+  const execute = async (loginPayload: LoginPayload): Promise<void> => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post<AuthResponse>(
+      const response = await axios.post<AuthenticatedResponse>(
         '/user/login',
         loginPayload
       );

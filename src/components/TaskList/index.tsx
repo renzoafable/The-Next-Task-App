@@ -4,7 +4,6 @@ import isSameDay from 'date-fns/isSameDay';
 import parseISO from 'date-fns/parseISO';
 import clsx from 'classnames';
 
-import Task from 'src/components/Task';
 import { TransitionGroup } from 'react-transition-group';
 import TaskTransitionContainer from '../TaskTransitionContainer';
 
@@ -29,7 +28,7 @@ type TasksProps = {
   tasks: Task[];
 };
 
-export default function Tasks({ tasks }: TasksProps) {
+export default function TaskList({ tasks }: TasksProps) {
   const tasksByDay = organizeTasksByDay(tasks);
 
   const content =

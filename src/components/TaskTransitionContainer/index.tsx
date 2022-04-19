@@ -3,7 +3,7 @@ import CSSTransition, {
   CSSTransitionProps,
 } from 'react-transition-group/CSSTransition';
 
-import TaskCard from 'src/components/Task';
+import TaskItem from 'src/components/TaskItem';
 
 type TransitionContainerProps = CSSTransitionProps & {
   task: Task;
@@ -18,7 +18,7 @@ export default function TaskTransitionContainer({
   return (
     <CSSTransition nodeRef={nodeRef} {...props}>
       <div ref={nodeRef}>
-        <TaskCard task={task} />
+        <TaskItem task={task} />
       </div>
     </CSSTransition>
   );

@@ -1,28 +1,20 @@
 import React, { useReducer, useMemo, Reducer } from 'react';
 
 import createCtx from 'src/helpers/context';
-import { ACTIONS, ACTION_TYPES } from './dispatchActions';
-
-type AppStateTasks = {
-  complete: Task[];
-  incomplete: Task[];
-  all: Task[];
-  byId: Record<string, Task>;
-};
-
-type AppStateContext = {
-  isLoadingTasks: boolean;
-  tasks: AppStateTasks;
-};
-
-type AppDispatchContext = {
-  addTask: (task: Task) => void;
-  deleteTask: (taskId: number) => void;
-  startLoadingTasks: () => void;
-  loadTasks: (tasks: Task[]) => void;
-  finishLoadingTasks: () => void;
-  updateTask: (id: number, updatedTask: Task) => void;
-};
+import {
+  handleAddTask,
+  handleDeleteTask,
+  handleFinishLoadingTasks,
+  handleLoadTasks,
+  handleStartLoadingTasks,
+  handleUpdateTask,
+} from './cases';
+import {
+  AppDispatchContext,
+  AppStateContext,
+  Actions,
+  ACTION_TYPES,
+} from './types';
 
 const [useAppState, AppStateProvider] = createCtx<AppStateContext>();
 const [useAppDispatch, AppDispatchProvider] = createCtx<AppDispatchContext>();
@@ -37,112 +29,33 @@ const initialState: AppStateContext = {
   },
 };
 
-const reducer: Reducer<AppStateContext, ACTIONS> = (
+const reducer: Reducer<AppStateContext, Actions> = (
   state,
   action
 ): AppStateContext => {
   switch (action.type) {
     case ACTION_TYPES.ADD_TASK: {
-      const { tasks } = state;
-      const { incomplete, all, byId } = tasks;
-
-      const task = action.payload;
-
-      return {
-        ...state,
-        tasks: {
-          ...tasks,
-          incomplete: [...incomplete, task],
-          byId: { ...byId, [task._id]: task },
-          all: [...all, task],
-        },
-      };
+      return handleAddTask(state, action);
     }
 
     case ACTION_TYPES.DELETE_TASK: {
-      const { tasks } = state;
-      const { all, incomplete, complete, byId } = tasks;
-
-      const byIdCopy = { ...byId };
-      delete byIdCopy[action.payload];
-
-      return {
-        ...state,
-        tasks: {
-          ...tasks,
-          all: all.filter((task) => task._id !== action.payload),
-          incomplete: incomplete.filter((task) => task._id !== action.payload),
-          complete: complete.filter((task) => task._id !== action.payload),
-          byId: byIdCopy,
-        },
-      };
+      return handleDeleteTask(state, action);
     }
 
     case ACTION_TYPES.START_LOAD_TASKS: {
-      return {
-        ...state,
-        isLoadingTasks: true,
-      };
+      return handleStartLoadingTasks(state, action);
     }
 
     case ACTION_TYPES.LOAD_TASKS: {
-      const tasks = action.payload;
-      const complete = tasks.filter((task) => task.completed);
-      const incomplete = tasks.filter((task) => !task.completed);
-      const byId = tasks.reduce((idMap, task) => {
-        idMap[task._id] = task;
-        return idMap;
-      }, {} as Record<string, Task>);
-
-      return {
-        ...state,
-        tasks: {
-          complete,
-          incomplete,
-          byId,
-          all: tasks,
-        },
-      };
+      return handleLoadTasks(state, action);
     }
 
     case ACTION_TYPES.FINISH_LOAD_TASKS: {
-      return {
-        ...state,
-        isLoadingTasks: false,
-      };
+      return handleFinishLoadingTasks(state, action);
     }
 
     case ACTION_TYPES.UPDATE_TASK: {
-      const { id, task: updatedTask } = action.payload;
-      const { tasks } = state;
-      const { complete, incomplete, all, byId } = tasks;
-
-      const tasksById = { ...byId };
-      let completedTasks: Task[] = [...complete];
-      let incompleteTasks: Task[] = [...incomplete];
-      let taskToUpdate = all.find((task) => task._id === id);
-      if (taskToUpdate) {
-        taskToUpdate = { ...taskToUpdate, ...updatedTask };
-
-        if (taskToUpdate.completed) {
-          completedTasks.push(taskToUpdate);
-          incompleteTasks = incompleteTasks.filter((task) => task._id !== id);
-        } else {
-          incompleteTasks.push(taskToUpdate);
-          completedTasks = completedTasks.filter((task) => task._id !== id);
-        }
-
-        tasksById[id] = { ...tasksById[id], ...updatedTask };
-      }
-
-      return {
-        ...state,
-        tasks: {
-          ...tasks,
-          complete: completedTasks,
-          incomplete: incompleteTasks,
-        },
-      };
+      return handleUpdateTask(state, action);
     }
 
     default:

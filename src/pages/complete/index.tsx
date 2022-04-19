@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import { useAppState } from 'src/context/AppContext';
 import { useLoadTasks } from 'src/hooks/useTaskApi';
-import Tasks from 'src/components/Tasks';
+import Tasks from 'src/components/TaskList';
 import SkeletonLoader from 'src/components/SkeletonLoader';
 
 const title = 'Completed Tasks';

@@ -5,6 +5,11 @@ import { isErrorWithMessage } from 'src/helpers/error';
 import { useAppDispatch } from 'src/context/AppContext';
 import useAxiosPrivate from './useAxiosPrivate';
 
+type UpdatableTaskProps = {
+  completed?: boolean;
+  description?: string;
+};
+
 export function useAddTask() {
   type AddTaskResponse = {
     success: boolean;
