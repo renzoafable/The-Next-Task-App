@@ -25,22 +25,44 @@ a {
   background-color: #393F49;
 }
 
-.tasks {
+.task-list {
   margin-bottom: 2rem;
 
-  .task {
-    border-radius: 0;
-    border-right: 0;
-    border-left: 0;
+  div {
+    .task-item {
+      border-radius: 0;
+      border-right: 0;
+      border-left: 0;
+
+      .delete-button:hover {
+        cursor: pointer;
+      }
+    }
 
     &:not(:first-of-type) {
-      border-top: 0;
-    }
-
-    .delete-button:hover {
-      cursor: pointer;
+      .task-item {
+        border-top: 0;
+      }
     }
   }
+}
+
+.task-item-transition-enter {
+  opacity: 0;
+}
+
+.task-item-transition-enter-active {
+  opacity: 1;
+  transition: all 800ms ease-in;
+}
+
+.task-item-transition-exit {
+  opacity: 1;
+}
+
+.task-item-transition-exit-active {
+  opacity: 0;
+  transition: all 800ms ease-in;
 }
 
 .divider {

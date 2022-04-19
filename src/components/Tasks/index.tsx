@@ -5,6 +5,8 @@ import parseISO from 'date-fns/parseISO';
 import clsx from 'classnames';
 
 import Task from 'src/components/Task';
+import { TransitionGroup } from 'react-transition-group';
+import TaskTransitionContainer from '../TaskTransitionContainer';
 
 type TasksByDay = {
   [key: string]: Task[];
@@ -43,7 +45,7 @@ export default function Tasks({ tasks }: TasksProps) {
               : format(taskDate, 'EEE, LLL dd, yyyy');
 
             return (
-              <div className="tasks" key={day}>
+              <div className="task-list" key={day}>
                 <p
                   className={clsx(
                     'fs-5',
@@ -53,16 +55,19 @@ export default function Tasks({ tasks }: TasksProps) {
                 >
                   {dateString}
                 </p>
-                {tasksByDay[day].map(
-                  (
-                    taskProps: Pick<
-                      Task,
-                      '_id' | 'completed' | 'description' | 'createdAt'
-                    >
-                  ) => (
-                    <Task key={taskProps._id} {...taskProps} />
-                  )
-                )}
+                <TransitionGroup
+                  className="task-list-transition-group"
+                  component={null}
+                >
+                  {tasksByDay[day].map((task: Task) => (
+                    <TaskTransitionContainer
+                      key={task._id}
+                      timeout={1000}
+                      classNames="task-item-transition"
+                      task={task}
+                    />
+                  ))}
+                </TransitionGroup>
               </div>
             );
           })}
