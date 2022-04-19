@@ -16,9 +16,11 @@
     <a href="https://github.com/renzoafable/The-Next-Task-App/issues">Request Feature</a>
   </p>
 
-  [![TypeScript][ts-shield]][ts-url]
-  [![Sass][sass-shield]][sass-url]
   [![React][react-shield]][react-url]
+  [![Next][next-shield]][next-url]
+  [![TypeScript][ts-shield]][ts-url]
+  [![JWT][jwt-shield]][jwt-url]
+  [![Sass][sass-shield]][sass-url]
   [![Bootstrap][bootstrap-shield]][bootstrap-url]
 
 </div>
@@ -145,6 +147,10 @@ This project was built using the `create-next-app` CLI. To get a local copy up, 
 [sass-url]: https://sass-lang.com
 [react-shield]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [react-url]: https://reactjs.org/
+[next-shield]: https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white
+[next-url]: https://nextjs.org
+[jwt-shield]: https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens
+[jwt-url]: https://jwt.io
 [bootstrap-shield]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [bootstrap-url]: https://getbootstrap.com
 [gmail-shield]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
