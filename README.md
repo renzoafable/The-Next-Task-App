@@ -97,10 +97,8 @@ This project was built using the `create-next-app` CLI. To get a local copy up, 
 
 ### Prerequisites 👣
 
-* NPM
-  ```sh
-  npm install npm@latest -g
-  ```
+* [NodeJS](https://nodejs.org/en/download/) (v14 or greater)
+* NPM (v6.14 or greater)
 
 ### Installation 📀
 
