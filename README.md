@@ -16,8 +16,6 @@
     <a href="https://github.com/renzoafable/The-Next-Task-App/issues">Request Feature</a>
   </p>
 
-  [![LinkedIn][linkedin-shield]][linkedin-url]
-  [![Github][github-shield]][github-url]
   [![TypeScript][ts-shield]][ts-url]
   [![Sass][sass-shield]][sass-url]
   [![React][react-shield]][react-url]
@@ -29,20 +27,23 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">About The Project 🙋</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#goals">Goals 🎯</a></li>
+      </ul>
+      <ul>
+        <li><a href="#built-with">Built With 🛠</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">Getting Started 🚦</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites">Prerequisites 👣</a></li>
+        <li><a href="#installation">Installation 📀</a></li>
       </ul>
     </li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#contact">Contact ☎️</a></li>
+    <li><a href="#acknowledgments">Acknowledgments 📜</a></li>
   </ol>
 </details>
 
@@ -63,6 +64,18 @@ In general, the main goals I had for this project were:
 * To add tools I commonly use such as TypeScript, Sass, ESLint, etc. to a barebones NextJS project built using `create-next-app` ✅
 * To learn how pre-rendering works in NextJS ✅
 * To see how easy it is to deploy a NextJS app to Vercel ✅
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Key Learnings 💡
+Just some quick thoughts I had while building the app:
+
+* The out of the box ESLint configuration of NextJS seems lacking so I had to configure it myself 😪
+* The file-system based page routing is just... 🤯
+* Adding TypeScript was a breeze with the `npm run dev` script
+* I loved how redirects and rewrites can be done using the `next.config.js` file. I hate doing that through code. 🤣
+* Deploying to Vercel was easy-peezy 🌬
+* Overall, regardless of the type of app I'm gonna build in the future, I would now prefer NextJS over just plain ReactJS. The abstractions offered by NextJS are exactly what I would want from a ReactJS framework. Let's see! 🎉👏
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -106,17 +119,19 @@ This project was built using the `create-next-app` CLI. To get a local copy up, 
     npm run dev
     ```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Contact
-
-Lorenz Afable - renzoafable@gmail.com
-
-Project Link: [https://github.com/renzoafable/The-Next-Task-App](https://github.com/renzoafable/The-Next-Task-App)
+4. Visit `localhost:3000` from your browser
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Acknowledgments
+## Contact ☎️
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Github][github-shield]][github-url]
+[![GMail][gmail-shield]][gmail-url]
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Acknowledgments 📜
 
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
@@ -134,4 +149,6 @@ Project Link: [https://github.com/renzoafable/The-Next-Task-App](https://github.
 [react-url]: https://reactjs.org/
 [bootstrap-shield]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [bootstrap-url]: https://getbootstrap.com
+[gmail-shield]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
+[gmail-url]: mailto:renzoafable@gmail.com
 [product-screenshot]: .docs/app_demo.gif
