@@ -28,7 +28,7 @@ type TasksProps = {
   tasks: Task[];
 };
 
-export default function Tasks({ tasks }: TasksProps) {
+export default function TaskList({ tasks }: TasksProps) {
   const tasksByDay = organizeTasksByDay(tasks);
 
   const content =

@@ -18,7 +18,11 @@ const rootClasses = [
 
 const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
 
-export default function Task({ task }: { task: Task }) {
+type TaskItemProps = {
+  task: Task;
+};
+
+export default function TaskItem({ task }: TaskItemProps) {
   const { createdAt, completed, _id, description } = task;
 
   const { execute: executeDeleteTask, isLoading: isDeleting } = useDeleteTask();
