@@ -4,7 +4,6 @@ import isSameDay from 'date-fns/isSameDay';
 import parseISO from 'date-fns/parseISO';
 import clsx from 'classnames';
 
-import Task from 'src/components/Task';
 import { TransitionGroup } from 'react-transition-group';
 import TaskTransitionContainer from '../TaskTransitionContainer';
 

@@ -1,3 +1,22 @@
+export type AppStateContext = {
+  isLoadingTasks: boolean;
+  tasks: {
+    complete: Task[];
+    incomplete: Task[];
+    all: Task[];
+    byId: Record<string, Task>;
+  };
+};
+
+export type AppDispatchContext = {
+  addTask: (task: Task) => void;
+  deleteTask: (taskId: number) => void;
+  startLoadingTasks: () => void;
+  loadTasks: (tasks: Task[]) => void;
+  finishLoadingTasks: () => void;
+  updateTask: (id: number, updatedTask: Task) => void;
+};
+
 export enum ACTION_TYPES {
   ADD_TASK = 'ADD_TASK',
   DELETE_TASK = 'DELETE_TASK',
@@ -7,35 +26,35 @@ export enum ACTION_TYPES {
   UPDATE_TASK = 'UPDATE_TASK',
 }
 
-type AddTaskAction = {
+export type AddTaskAction = {
   type: ACTION_TYPES.ADD_TASK;
   payload: Task;
 };
 
-type DeleteTaskAction = {
+export type DeleteTaskAction = {
   type: ACTION_TYPES.DELETE_TASK;
   payload: number;
 };
 
-type StartLoadTaskAction = {
+export type StartLoadTaskAction = {
   type: ACTION_TYPES.START_LOAD_TASKS;
 };
 
-type LoadTaskAction = {
+export type LoadTaskAction = {
   type: ACTION_TYPES.LOAD_TASKS;
   payload: Task[];
 };
 
-type FinishLoadTaskAction = {
+export type FinishLoadTaskAction = {
   type: ACTION_TYPES.FINISH_LOAD_TASKS;
 };
 
-type UpdateTaskAction = {
+export type UpdateTaskAction = {
   type: ACTION_TYPES.UPDATE_TASK;
   payload: { id: number; task: Task };
 };
 
-export type ACTIONS =
+export type Actions =
   | AddTaskAction
   | DeleteTaskAction
   | LoadTaskAction
