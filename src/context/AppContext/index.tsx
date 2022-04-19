@@ -7,6 +7,7 @@ type AppStateTasks = {
   complete: Task[];
   incomplete: Task[];
   all: Task[];
+  byId: Record<string, Task>;
 };
 
 type AppStateContext = {
@@ -32,6 +33,7 @@ const initialState: AppStateContext = {
     complete: [],
     incomplete: [],
     all: [],
+    byId: {},
   },
 };
 
@@ -42,7 +44,7 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
   switch (action.type) {
     case ACTION_TYPES.ADD_TASK: {
       const { tasks } = state;
-      const { incomplete, all } = tasks;
+      const { incomplete, all, byId } = tasks;
 
       const task = action.payload;
 
@@ -51,6 +53,7 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
         tasks: {
           ...tasks,
           incomplete: [...incomplete, task],
+          byId: { ...byId, [task._id]: task },
           all: [...all, task],
         },
       };
@@ -58,7 +61,10 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
 
     case ACTION_TYPES.DELETE_TASK: {
       const { tasks } = state;
-      const { all, incomplete, complete } = tasks;
+      const { all, incomplete, complete, byId } = tasks;
+
+      const byIdCopy = { ...byId };
+      delete byIdCopy[action.payload];
 
       return {
         ...state,
@@ -67,6 +73,7 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
           all: all.filter((task) => task._id !== action.payload),
           incomplete: incomplete.filter((task) => task._id !== action.payload),
           complete: complete.filter((task) => task._id !== action.payload),
+          byId: byIdCopy,
         },
       };
     }
@@ -82,12 +89,17 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
       const tasks = action.payload;
       const complete = tasks.filter((task) => task.completed);
       const incomplete = tasks.filter((task) => !task.completed);
+      const byId = tasks.reduce((idMap, task) => {
+        idMap[task._id] = task;
+        return idMap;
+      }, {} as Record<string, Task>);
 
       return {
         ...state,
         tasks: {
           complete,
           incomplete,
+          byId,
           all: tasks,
         },
       };
@@ -103,8 +115,9 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
     case ACTION_TYPES.UPDATE_TASK: {
       const { id, task: updatedTask } = action.payload;
       const { tasks } = state;
-      const { complete, incomplete, all } = tasks;
+      const { complete, incomplete, all, byId } = tasks;
 
+      const tasksById = { ...byId };
       let completedTasks: Task[] = [...complete];
       let incompleteTasks: Task[] = [...incomplete];
       let taskToUpdate = all.find((task) => task._id === id);
@@ -118,6 +131,8 @@ const reducer: Reducer<AppStateContext, ACTIONS> = (
           incompleteTasks.push(taskToUpdate);
           completedTasks = completedTasks.filter((task) => task._id !== id);
         }
+
+        tasksById[id] = { ...tasksById[id], ...updatedTask };
       }
 
       return {
