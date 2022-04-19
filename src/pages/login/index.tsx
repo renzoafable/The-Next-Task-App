@@ -15,7 +15,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const { execute, isLoading } = useLogin({ redirectTo: '/' });
+  const { execute, isLoading } = useLogin({ redirectTo: '/incomplete' });
   const session = useSession();
   const router = useRouter();
 
@@ -27,6 +27,10 @@ export default function Login() {
     } else {
       setShowForm(true);
     }
+  }, []);
+
+  useEffect(() => {
+    router.prefetch('/incomplete');
   }, []);
 
   const formSubmitHandler = async (e: React.FormEvent) => {

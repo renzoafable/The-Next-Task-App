@@ -8,12 +8,12 @@ import SpinnerButton from 'src/components/SpinnerButton';
 
 const title = 'Register User';
 
-export default function Register(): JSX.Element {
+export default function Register() {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { execute, isLoading } = useRegisterUser({ redirectTo: '/' });
+  const { execute, isLoading } = useRegisterUser({ redirectTo: '/incomplete' });
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
