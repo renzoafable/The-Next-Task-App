@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import { useAuthState } from 'src/context/AuthContext';
 import { useLogout } from 'src/hooks/useAuthApi';
@@ -12,23 +12,29 @@ export default function AuthDetails() {
   };
 
   const greeting = user ? (
-    <p className="text-white fs-6 mb-0">
-      Hi, <span className="text-info fw-bolder">{user.name}</span>! Finish your
-      tasks today!
-    </p>
+    <Navbar.Brand className="text-white fs-6 mb-0">
+      Welcome, <span className="text-info fw-bolder">{user.name}</span>!
+    </Navbar.Brand>
   ) : null;
 
   return (
-    <div className="d-flex mb-4 align-items-center">
-      {greeting}
-      <div className="flex-grow-1" />
-      <Button
-        variant="link"
-        onClick={onClickLogout}
-        className="fs-6 text-decoration-none text-light"
-      >
-        Logout
-      </Button>
-    </div>
+    <Navbar collapseOnSelect expand="md" variant="dark">
+      <Container fluid>
+        {greeting}
+        <Navbar.Toggle aria-controls="navbar-nav" className="ms-auto" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ms-auto mt-2">
+            <Nav.Link
+              as={Button}
+              variant="link"
+              onClick={onClickLogout}
+              className="fs-6 text-decoration-none text-light"
+            >
+              Logout
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }

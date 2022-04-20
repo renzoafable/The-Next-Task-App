@@ -17,9 +17,9 @@ const pagePaths: { href: string; label: string }[] = [
 
 export default function Navbar() {
   return (
-    <div className="pt-5">
+    <div className="pt-1">
       <AuthDetails />
-      <hr className="divider" />
+      <hr className="divider my-1 my-md-2" />
       <div className="d-flex justify-content-between align-items-center">
         <DateStats />
         <Nav variant="pills">
