@@ -26,8 +26,12 @@ export default function TaskInput() {
   };
 
   return (
-    <Form className="row my-3" onSubmit={onSubmit} autoComplete="off">
-      <div className="col-5">
+    <Form
+      className="row my-3 justify-content-center justify-content-md-start"
+      onSubmit={onSubmit}
+      autoComplete="off"
+    >
+      <div className="col-7 col-md-5">
         <Form.Label htmlFor="inputTodoName" className="visually-hidden">
           Task Name
         </Form.Label>
@@ -43,7 +47,7 @@ export default function TaskInput() {
           disabled={isLoadingTasks}
         />
       </div>
-      <div className="col-2 g-0">
+      <div className="col-3 col-md-2 g-0">
         <SpinnerButton
           variant="info"
           className="text-white"
