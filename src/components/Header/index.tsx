@@ -20,9 +20,9 @@ export default function Header() {
     <div className="pt-1">
       <AuthDetails />
       <hr className="divider my-2 my-md-3" />
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
         <DateStats className="mt-1" />
-        <Nav variant="pills" className="mt-3 mb-2">
+        <Nav variant="pills" className="mt-2 mb-3">
           {pagePaths.map((path) => (
             <NavLink key={path.href} href={path.href}>
               {path.label}
