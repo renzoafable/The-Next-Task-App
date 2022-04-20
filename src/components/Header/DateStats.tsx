@@ -1,11 +1,16 @@
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import isSameDay from 'date-fns/isSameDay';
+import clsx, { Argument, Mapping, Value } from 'classnames';
 
 import { useAppState } from 'src/context/AppContext';
 import SkeletonLoader from 'src/components/SkeletonLoader';
 
-export default function DateStats() {
+type DateStatsProps = {
+  className?: Value | Mapping | Argument[];
+};
+
+export default function DateStats({ className }: DateStatsProps) {
   const { tasks, isLoadingTasks } = useAppState();
   const { incomplete } = tasks;
   const currentDate = new Date();
@@ -27,8 +32,8 @@ export default function DateStats() {
   );
 
   return (
-    <div>
-      <p className="text-white mb-0 fw-bolder">
+    <div className={clsx(className)}>
+      <p className="text-white text-center text-md-start mb-0 fw-bolder">
         {format(currentDate, 'EEE, LLL dd, yyyy')}
       </p>
       {stats}

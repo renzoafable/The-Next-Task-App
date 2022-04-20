@@ -15,14 +15,14 @@ const pagePaths: { href: string; label: string }[] = [
   },
 ];
 
-export default function Navbar() {
+export default function Header() {
   return (
     <div className="pt-1">
       <AuthDetails />
-      <hr className="divider my-1 my-md-2" />
-      <div className="d-flex justify-content-between align-items-center">
-        <DateStats />
-        <Nav variant="pills">
+      <hr className="divider my-2 my-md-3" />
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <DateStats className="mt-1" />
+        <Nav variant="pills" className="mt-3 mb-2">
           {pagePaths.map((path) => (
             <NavLink key={path.href} href={path.href}>
               {path.label}
