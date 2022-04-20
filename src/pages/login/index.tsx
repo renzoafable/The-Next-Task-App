@@ -105,8 +105,10 @@ export default function Login() {
         className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={4} />
-          <Col xs={4}>{content}</Col>
+          <Col xs={1} md={4} />
+          <Col xs={10} md={4}>
+            {content}
+          </Col>
         </Row>
       </Container>
     </div>
