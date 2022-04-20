@@ -50,8 +50,8 @@ export default function Register() {
         className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={4} />
-          <Col xs={4}>
+          <Col xs={1} md={3} />
+          <Col xs={10} md={6}>
             <h1 className="display-6 text-white text-center mb-3 fw-bold">
               Register
             </h1>
