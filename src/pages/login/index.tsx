@@ -85,7 +85,7 @@ export default function Login() {
             Login
           </SpinnerButton>
         </div>
-        <p className="text-white text-end mt-4 fs-6">
+        <p className="text-white text-end mt-4">
           No account yet?{' '}
           <Link href="/register">
             <a className="text-decoration-none text-info">Register</a>

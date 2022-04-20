@@ -110,7 +110,7 @@ export default function Register() {
                   Register
                 </SpinnerButton>
               </div>
-              <p className="text-white text-end mt-4 fs-6">
+              <p className="text-white text-end mt-4">
                 Already have an account?{' '}
                 <Link href="/login">
                   <a className="text-decoration-none text-info">Login</a>

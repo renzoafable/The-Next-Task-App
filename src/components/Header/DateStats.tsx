@@ -20,9 +20,9 @@ export default function DateStats() {
     <SkeletonLoader />
   ) : (
     <>
-      <span className="text-info mb-0 fs-6">{`${tasksTodayCount} Tasks Today`}</span>
-      <span className="text-white mb-0 fs-6"> / </span>
-      <span className="text-danger mb-0 fs-6">{`${tasksOverdueCount} Tasks Overdue`}</span>
+      <span className="text-info mb-0">{`${tasksTodayCount} Tasks Today`}</span>
+      <span className="text-white mb-0"> / </span>
+      <span className="text-danger mb-0">{`${tasksOverdueCount} Tasks Overdue`}</span>
     </>
   );
 

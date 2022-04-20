@@ -12,7 +12,7 @@ export default function AuthDetails() {
   };
 
   const greeting = user ? (
-    <Navbar.Brand className="text-white fs-6 mb-0">
+    <Navbar.Brand className="text-white mb-0">
       Welcome, <span className="text-info fw-bolder">{user.name}</span>!
     </Navbar.Brand>
   ) : null;
@@ -28,7 +28,7 @@ export default function AuthDetails() {
               as={Button}
               variant="link"
               onClick={onClickLogout}
-              className="fs-6 text-decoration-none text-light"
+              className="text-decoration-none text-light"
             >
               Logout
             </Nav.Link>

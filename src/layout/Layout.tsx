@@ -30,7 +30,7 @@ export default function AppContainer(props: AppContainerProps) {
   }
 
   return (
-    <Container fluid="md" className="h-100 w-100 overflow-auto">
+    <Container fluid="sm" className="h-100 overflow-auto">
       {content}
     </Container>
   );
