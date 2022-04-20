@@ -50,8 +50,8 @@ export default function Register() {
         className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={4} />
-          <Col xs={4}>
+          <Col xs={1} md={3} />
+          <Col xs={10} md={6}>
             <h1 className="display-6 text-white text-center mb-3 fw-bold">
               Register
             </h1>
@@ -110,7 +110,7 @@ export default function Register() {
                   Register
                 </SpinnerButton>
               </div>
-              <p className="text-white text-end mt-4 fs-6">
+              <p className="text-white text-end mt-4">
                 Already have an account?{' '}
                 <Link href="/login">
                   <a className="text-decoration-none text-info">Login</a>

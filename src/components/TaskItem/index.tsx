@@ -16,7 +16,7 @@ const rootClasses = [
   'align-items-center',
 ];
 
-const titleClasses = ['card-title', 'fs-6', 'text-light', 'mb-0'];
+const titleClasses = ['card-title', 'text-light', 'mb-0'];
 
 type TaskItemProps = {
   task: Task;
@@ -69,7 +69,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         >
           {description}
         </p>
-        <p className="card-subtitle fs-6 text-muted mb-0">{dateString}</p>
+        <p className="card-subtitle text-muted mb-0">{dateString}</p>
       </div>
       {isDeleting ? (
         <Spinner animation="border" variant="light" size="sm" />

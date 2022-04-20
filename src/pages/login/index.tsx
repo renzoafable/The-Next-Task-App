@@ -85,7 +85,7 @@ export default function Login() {
             Login
           </SpinnerButton>
         </div>
-        <p className="text-white text-end mt-4 fs-6">
+        <p className="text-white text-end mt-4">
           No account yet?{' '}
           <Link href="/register">
             <a className="text-decoration-none text-info">Register</a>
@@ -105,8 +105,10 @@ export default function Login() {
         className="position-absolute top-50 start-50 translate-middle"
       >
         <Row>
-          <Col xs={4} />
-          <Col xs={4}>{content}</Col>
+          <Col xs={1} md={4} />
+          <Col xs={10} md={4}>
+            {content}
+          </Col>
         </Row>
       </Container>
     </div>
